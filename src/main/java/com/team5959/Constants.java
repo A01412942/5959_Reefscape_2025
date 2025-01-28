@@ -17,8 +17,8 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 //   8 · rearLeftRotation
 //   9 · rearLeftDrive
 
-//   16 · elevatorLeft
-//   17 · elevatorRight
+//   16 · elevatorRight
+//   17 · elevatorLeft
 //  =================
 public class Constants {
     public static class ControllerConstants{
@@ -127,5 +127,12 @@ public class Constants {
         public static final double MAX_SPEED = 3.6576; //12.0 ft/s 
         public static final double MAX_ROTATION = MAX_SPEED / Math.hypot(TRACK_WIDTH / 2.0, WHEEL_BASE / 2.0);
 
+    }
+    
+    public static class ElevatorConstants{
+        public static final int elevatorRight = 16;
+        public static final int elevatorLeft = 17;
+        public static final boolean elevatorRightInverted = true;
+        public static final boolean elevatorLeftInverted = false;
     }
 }
