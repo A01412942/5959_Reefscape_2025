@@ -16,11 +16,14 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 //   7 · rearRightDrive
 //   8 · rearLeftRotation
 //   9 · rearLeftDrive
+
+//   16 · elevatorLeft
+//   17 · elevatorRight
 //  =================
 public class Constants {
     public static class ControllerConstants{
         public static final int kDriverControllerPort = 0; //port for driver's control
-        public static final int kMecanismsControllerPort =1; //port for the mecanism's controller.
+        public static final int kMecanismsControllerPort = 1; //port for the mecanism's controller.
     }
 
     public static class SwerveConstants{
