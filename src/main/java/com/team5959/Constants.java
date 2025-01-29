@@ -130,9 +130,18 @@ public class Constants {
     }
     
     public static class ElevatorConstants{
-        public static final int elevatorRight = 16;
-        public static final int elevatorLeft = 17;
+        public static final int elevatorRightID = 16;
+        public static final int elevatorLeftID= 17;
         public static final boolean elevatorRightInverted = true;
         public static final boolean elevatorLeftInverted = false;
+
+        //PID VALUES
+        public static final double KP_ELEVATOR = 0.037;
+        public static final double KI_ELEVATOR = 0.0008;
+        public static final double KD_ELEVATOR = 0.008;
+        //POSITION VALUES (in encoder units)
+        public static final double elevatorStartingPosition = 0.00;
+        public static final double elevatorPositionOne = 20.00;
+        public static final double elevatorPositionTwo = 40.00;
     }
 }
