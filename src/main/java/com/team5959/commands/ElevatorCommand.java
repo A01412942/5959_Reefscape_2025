@@ -3,32 +3,52 @@ package com.team5959.commands;
 import com.team5959.Constants.ElevatorConstants;
 import com.team5959.RobotContainer;
 import com.team5959.subsystems.ElevatorSubsytem;
+import java.util.function.BooleanSupplier; //FIXME I think this might be the way for using the control
 
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class ElevatorCommand extends Command{
+
+    //INITIALIZATION
+
     private final ElevatorSubsytem elevatorSubsytem;
 
-    public ElevatorCommand(ElevatorSubsytem elevatorSubsytem){
+    private final BooleanSupplier crossButtonIsPressedSupplier, circleButtonIsPressedSupplier, triangleButtonIsPressedSupplier;
+
+
+    public ElevatorCommand(ElevatorSubsytem elevatorSubsytem, BooleanSupplier crossButtonIsPressedSupplier, BooleanSupplier circleButtonIsPressedSupplier, BooleanSupplier triangleButtonIsPressedSupplier){
         this.elevatorSubsytem = elevatorSubsytem;
+        this.crossButtonIsPressedSupplier= crossButtonIsPressedSupplier;
+        this.circleButtonIsPressedSupplier = circleButtonIsPressedSupplier;
+        this.triangleButtonIsPressedSupplier = triangleButtonIsPressedSupplier;
         addRequirements(elevatorSubsytem);
     }
 
-    /* @Override
+    @Override
     public void execute(){
-         if (RobotContainer.control.getCrossButtonPressed()) {
-    elevatorSubsytem.moveToPositionCero();
-    }
-        if (RobotContainer.control.getCircleButtonPressed()) {
-    elevatorSubsytem.moveToPositionOne();
-    }
-        if (RobotContainer.control.getTriangleButton()) {
-        elevatorSubsytem.moveToPositionTwo();
-    }
-    } */
-          // Returns true when the command should end.
-          @Override
-          public boolean isFinished() {
-            return false;
-          }
+        // ALTERING VALUES
+
+        //Joystick buttons -> boolean
+        boolean crossButtonIsPressed = crossButtonIsPressedSupplier.getAsBoolean();
+        boolean circleButtonIsPressed = circleButtonIsPressedSupplier.getAsBoolean();
+        boolean triangleButtonIsPressed = triangleButtonIsPressedSupplier.getAsBoolean();
+
+
+        //set different positons of the elevator
+        if (crossButtonIsPressed) {
+        elevatorSubsytem.moveToPositionCero();
         }
+        if (circleButtonIsPressed) {
+        elevatorSubsytem.moveToPositionOne();
+        }
+        if (triangleButtonIsPressed) {
+        elevatorSubsytem.moveToPositionTwo();
+        }
+    
+    } 
+    // Returns true when the command should end.
+    @Override
+    public boolean isFinished() {
+    return false;
+    }
+}
