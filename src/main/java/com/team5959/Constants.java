@@ -132,8 +132,8 @@ public class Constants {
     public static class ElevatorConstants{
         public static final int elevatorRightID = 16;
         public static final int elevatorLeftID= 17;
-        public static final boolean elevatorRightInverted = true;
-        public static final boolean elevatorLeftInverted = false;
+        public static final boolean elevatorRightInverted = false;
+        public static final boolean elevatorLeftInverted = true;
 
         //PID VALUES
         public static final double KP_ELEVATOR = 0.037;
