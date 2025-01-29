@@ -25,10 +25,8 @@ public class ElevatorSubsytem extends SubsystemBase{
     private final RelativeEncoder elevatorEncoder;
 
     private final PIDController elevatorPID;
-   
-    private boolean isManualControl = false;
 
-    private double targetPosition = Constants.ElevatorConstants.elevatorStartingPosition;
+    private double targetPosition;
     
     public ElevatorSubsytem(){
         //instatiate motors, config and encoder
@@ -37,36 +35,32 @@ public class ElevatorSubsytem extends SubsystemBase{
 
         elevatorEncoder = elevatorRight.getEncoder();
         elevatorConfig = new SparkMaxConfig();
-        elevatorConfig.follow(elevatorRight);
+        elevatorConfig.follow(elevatorRight, Constants.ElevatorConstants.elevatorRightInverted);
         elevatorLeft.configure(elevatorConfig, null, null);
 
         elevatorEncoder.setPosition(Constants.ElevatorConstants.elevatorStartingPosition);
         elevatorPID = new PIDController(Constants.ElevatorConstants.KP_ELEVATOR, Constants.ElevatorConstants.KI_ELEVATOR, Constants.ElevatorConstants.KP_ELEVATOR);
     }
     public void holdCurrentPosition() {
-        isManualControl = false;
+        
         targetPosition = elevatorEncoder.getPosition(); // Set target to current position
     }
 
-    // Method to increment the motor manually
-    public void increment(double customOutput) {
-        isManualControl = true;
-        elevatorRight.set(customOutput); // Run motor with custom output
-    }
+
 
     // Preset positions
     public void moveToPositionCero() {
-        isManualControl = false; // Disable manual control for preset position
+        
         setTargetPosition(Constants.ElevatorConstants.elevatorStartingPosition);  // Move to preset position 0
     }
 
     public void moveToPositionOne() {
-        isManualControl = false; // Disable manual control for preset position
+        
         setTargetPosition(Constants.ElevatorConstants.elevatorPositionOne);  // Move to preset position 1
     }
 
     public void moveToPositionTwo() {
-        isManualControl = false; // Disable manual control for preset position
+        
         setTargetPosition(Constants.ElevatorConstants.elevatorPositionTwo);  // Move to preset position 2
     }
 
@@ -77,11 +71,11 @@ public class ElevatorSubsytem extends SubsystemBase{
 
     @Override
     public void periodic() {
-        if (!isManualControl) {
-            // PID control mode
-            double pidOutput = elevatorPID.calculate(elevatorEncoder.getPosition(), targetPosition);
-            elevatorRight.set(pidOutput); // Set the motor to the calculated PID output
-        }
+       
+        // PID control mode
+        double pidOutput = elevatorPID.calculate(elevatorEncoder.getPosition(), targetPosition);
+        elevatorRight.set(pidOutput); // Set the motor to the calculated PID output
+        
        
     }
 
