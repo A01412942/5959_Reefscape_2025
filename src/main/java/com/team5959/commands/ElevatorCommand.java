@@ -3,10 +3,8 @@ package com.team5959.commands;
 import com.team5959.Constants.ElevatorConstants;
 import com.team5959.RobotContainer;
 import com.team5959.subsystems.ElevatorSubsytem;
-import java.util.function.BooleanSupplier; //FIXME I think this might be the way for using the control
-
-import edu.wpi.first.wpilibj2.command.Command;
-
+import java.util.function.BooleanSupplier; 
+import edu.wpi.first.wpilibj2.command.Command; 
 public class ElevatorCommand extends Command{
 
     //INITIALIZATION

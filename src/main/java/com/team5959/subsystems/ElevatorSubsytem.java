@@ -11,6 +11,8 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard; //FIXME Add smartdashboard
+
 
 public class ElevatorSubsytem extends SubsystemBase{
     //INITIALIZATION

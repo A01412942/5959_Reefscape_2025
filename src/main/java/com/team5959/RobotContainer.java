@@ -32,7 +32,7 @@ public class RobotContainer {
 
   //drive buttons
   private final JoystickButton resetNavxButton = new JoystickButton(control, 10);
-  private final JoystickButton resetPosButton = new JoystickButton(control, 0);
+  private final JoystickButton resetPosButton = new JoystickButton(control, 1);
   //AXIS
   private final int joystickAxis = PS4Controller.Axis.kRightY.value;
   

@@ -136,8 +136,8 @@ public class Constants {
         public static final boolean elevatorLeftInverted = true;
 
         //PID VALUES
-        public static final double KP_ELEVATOR = 0.037;
-        public static final double KI_ELEVATOR = 0.0008;
+        public static final double KP_ELEVATOR = 0.01;
+        public static final double KI_ELEVATOR = 0.0008; //FIXME adjust pid values for elevator
         public static final double KD_ELEVATOR = 0.008;
         //POSITION VALUES (in encoder units)
         public static final double elevatorStartingPosition = 0.00;
