@@ -126,37 +126,6 @@ public class Constants {
         //MAX
         public static final double MAX_SPEED = 3.6576; //12.0 ft/s 
         public static final double MAX_ROTATION = MAX_SPEED / Math.hypot(TRACK_WIDTH / 2.0, WHEEL_BASE / 2.0);
-        }
 
-        //ELEVATOR CONSTANTS
-        public static class ElevatorConstants{
-        public static final int elevatorRightID = 16;
-        public static final int elevatorLeftID= 17;
-        public static final boolean elevatorRightInverted = false;
-        public static final boolean elevatorLeftInverted = true;
-        
-        //PID VALUES
-        public static final double KP_ELEVATOR = 0.01;
-        public static final double KI_ELEVATOR = 0.0008; //FIXME adjust pid values for elevator
-        public static final double KD_ELEVATOR = 0.008;
-        //POSITION VALUES (in encoder units)
-        public static final double elevatorStartingPosition = 0.00;
-        public static final double elevatorPositionOne = 20.00;
-        public static final double elevatorPositionTwo = 40.00;
-      }
-
-      //ARM CONSTANTS
-      public static class ArmConstants{
-        public static final int armMotorID = 18;
-
-        //PID VALUES
-        public static final double KP_ARM = 0.01;
-        public static final double KI_ARM = 0.0008; //FIXME adjust pid values for arm
-        public static final double KD_ARM = 0.008;
-        //POSITION VALUES (in encoder units)
-        public static final double armStartingPosition = 0.00;
-        public static final double armCoralPosition = 20.00;
-        //SPEED REDUCER
-        public static final double ARM_SPEED_REDUCER = 0.5;
-      }
     }
+}
