@@ -3,6 +3,7 @@ package com.team5959.commands;
 import com.team5959.Constants.ArmConstants;
 import com.team5959.RobotContainer;
 import com.team5959.subsystems.ArmSubsystem;
+
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
@@ -14,12 +15,12 @@ public class ArmCommand extends Command{
 
     private final ArmSubsystem armSubsystem;
 
-    private BooleanSupplier L1IsPressedSupplier, R1IsPressedSupplier;
+    private BooleanSupplier L1IsPressedSupplier, R1IsPressedSupplier, test;
 
     private DoubleSupplier L2IsPressedSupplier, R2IsPressedSupplier;
 
 
-    public ArmCommand(ArmSubsystem armSubsystem, BooleanSupplier L1IsPressedSupplier, BooleanSupplier R1IsPressedSupplier, DoubleSupplier L2IsPressedSupplier, DoubleSupplier R2IsPressedSupplier){
+    public ArmCommand(ArmSubsystem armSubsystem, BooleanSupplier L1IsPressedSupplier , BooleanSupplier R1IsPressedSupplier, DoubleSupplier L2IsPressedSupplier, DoubleSupplier R2IsPressedSupplier){
         this.armSubsystem = armSubsystem;
         this.L1IsPressedSupplier = L1IsPressedSupplier;
         this.R1IsPressedSupplier = R1IsPressedSupplier;
@@ -50,10 +51,11 @@ public class ArmCommand extends Command{
         }
 
         if (L2IsPressed > 0.5) {
-            armSubsystem.moveManualIntake(L2IsPressed);
+            armSubsystem.moveManualArm(L2IsPressed);
         }
+        
         if (R2IsPressed > 0.5) {
-            armSubsystem.moveManualIntake(R2IsPressed);
+            armSubsystem.moveManualArm(R2IsPressed);
         }
     } 
     // Returns true when the command should end.

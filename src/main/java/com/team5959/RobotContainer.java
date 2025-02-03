@@ -44,8 +44,16 @@ public class RobotContainer {
     //swerveSubs.setDefaultCommand(new S_DriveCommand(swerveSubs, () -> -.getLeftY(), () -> -xbox.getLeftX(), () -> -xbox.getRightX(), true));
     swerveChassis.setDefaultCommand(new SwerveDrive(swerveChassis, () -> -control.getLeftY(), () -> -control.getLeftX(), () -> control.getRightX(), true));
     elevatorSubsytem.setDefaultCommand(new ElevatorCommand(elevatorSubsytem, () -> control.getCrossButtonPressed(), ()-> control.getCircleButtonPressed(), ()-> control.getTriangleButtonPressed()));
-    armSubsystem.setDefaultCommand(new ArmCommand(armSubsystem, () -> control.getL1Button(), ()-> control.getR1Button(), ()-> control.getL2Axis(), ()-> control.getR2Axis()));
-    // Configure the trigger bindings   
+  //  armSubsystem.setDefaultCommand(new ArmCommand(armSubsystem, () -> control.getL1Button() || controlOp.getRawButtonPressed(1), ()-> control.getR1Button() || controlOp.getRawButton(2), ()-> control.getL2Axis() || controlOp.getRawAxis(2), ()-> control.getR2Axis() || controlOp.getRawAxis(3)));
+  armSubsystem.setDefaultCommand(new ArmCommand(
+    armSubsystem,
+    () -> control.getL1Button() || controlOp.getRawButton(1),
+    () -> control.getR1Button() || controlOp.getRawButton(2),
+    () -> control.getL2Axis() > 0.5 ? control.getL2Axis() : controlOp.getRawAxis(2),  //FIXME what the hell is this , must be tested
+    () -> control.getR2Axis() > 0.5 ? control.getR2Axis() : controlOp.getRawAxis(3)
+));
+
+
     configureBindings();
   }
 
