@@ -159,4 +159,8 @@ public class Constants {
         //SPEED REDUCER
         public static final double ARM_SPEED_REDUCER = 0.5;
       }
+      //INTAKE CONSTANTS
+      public static class IntakeConstants{
+        public static final int intakeMotorID = 19;
+      }
     }

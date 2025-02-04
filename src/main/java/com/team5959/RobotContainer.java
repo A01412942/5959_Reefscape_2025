@@ -1,14 +1,19 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
+// TITANIUM RAMS 5959, FRC 2025
+// Authors: 5959 Programming Team (Beatriz Marún, Jorge Pineda, Danna Hernández, Denis Cerón)
 
 package com.team5959;
 
 import com.team5959.commands.ElevatorCommand;
 import com.team5959.commands.SwerveDrive;
 import com.team5959.subsystems.ElevatorSubsytem;
+import com.team5959.subsystems.IntakeSubsystem;
 import com.team5959.subsystems.SwerveChassis;
 import com.team5959.subsystems.ArmSubsystem;
+import com.team5959.commands.IntakeCommand;
+import com.team5959.subsystems.IntakeSubsystem;
 import com.team5959.commands.ArmCommand;
 
 
@@ -28,6 +33,7 @@ public class RobotContainer {
   private final SwerveChassis swerveChassis = new SwerveChassis();
   private final ElevatorSubsytem elevatorSubsytem = new ElevatorSubsytem();
   private final ArmSubsystem armSubsystem = new ArmSubsystem();
+  private final IntakeSubsystem IntakeSubsystem = new IntakeSubsystem();
 
   //controllers
   private final PS4Controller control = new PS4Controller(ControllerConstants.kDriverControllerPort);
@@ -52,6 +58,7 @@ public class RobotContainer {
     () -> control.getL2Axis() > 0.5 ? control.getL2Axis() : controlOp.getRawAxis(2),  //FIXME what the hell is this , must be tested
     () -> control.getR2Axis() > 0.5 ? control.getR2Axis() : controlOp.getRawAxis(3)
 ));
+    IntakeSubsystem.setDefaultCommand(new IntakeCommand(IntakeSubsystem, () -> control.getSquareButtonPressed(), () -> control.getSquareButtonPressed()  && control.getR3ButtonPressed()));
 
 
     configureBindings();
