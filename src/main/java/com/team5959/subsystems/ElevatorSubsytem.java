@@ -7,10 +7,14 @@ import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.team5959.Constants;
+import com.team5959.Constants.ArmConstants;
 import com.team5959.Constants.ElevatorConstants;
 
 import edu.wpi.first.math.controller.PIDController;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.DigitalInput; //0 is pressed, 1 is not pressed
+
 
 
 public class ElevatorSubsytem extends SubsystemBase{
@@ -30,6 +34,8 @@ public class ElevatorSubsytem extends SubsystemBase{
     private final PIDController elevatorPID;
 
     private double targetPosition;
+
+    private final DigitalInput elevatorLimitSwitch;
     
     public ElevatorSubsytem(){
         //instatiate motors, config and encoder
@@ -37,9 +43,11 @@ public class ElevatorSubsytem extends SubsystemBase{
         elevatorLeft = new SparkMax(ElevatorConstants.elevatorLeftID, MotorType.kBrushless);
 
         elevatorEncoder = elevatorRight.getEncoder();
-
+        
         elevatorRightConfig = new SparkMaxConfig();
         elevatorLeftConfig = new SparkMaxConfig();
+
+        elevatorLimitSwitch = new DigitalInput(ElevatorConstants.elevatorLimitSwitchID);
 
         elevatorLeftConfig.follow(elevatorRight, ElevatorConstants.elevatorLeftInverted);
         elevatorLeftConfig.idleMode(IdleMode.kBrake);
@@ -58,7 +66,17 @@ public class ElevatorSubsytem extends SubsystemBase{
         targetPosition = elevatorEncoder.getPosition(); // Set target to current position
     }
 
+    public boolean LimitSwitchState() {
+        return elevatorLimitSwitch.get();
+    }
 
+    public void moveElevator(double speed) {
+        if (LimitSwitchState() && speed > 0) {
+            elevatorRight.set(0); // Stop the motor if the limit switch is pressed and the elevator is moving up
+        } else {
+            elevatorRight.set(speed);
+        }
+    }
 
     // Preset positions
     public void moveToPositionCero() {
@@ -81,6 +99,7 @@ public class ElevatorSubsytem extends SubsystemBase{
         targetPosition = position;
     }
 
+    
     @Override
     public void periodic() {
        
@@ -88,9 +107,11 @@ public class ElevatorSubsytem extends SubsystemBase{
         double pidOutput = elevatorPID.calculate(elevatorEncoder.getPosition(), targetPosition);
         elevatorRight.set(pidOutput); // Set the motor to the calculated PID output
         
-       
     }
 
+    public void stopElevator(){
+        elevatorRight.set(0);
+    }
     // Method to check if the motor has reached the target position
     public boolean atTargetPosition() {
         return elevatorPID.atSetpoint();

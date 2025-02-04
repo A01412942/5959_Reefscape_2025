@@ -3,7 +3,9 @@ package com.team5959.commands;
 import com.team5959.Constants.ElevatorConstants;
 import com.team5959.RobotContainer;
 import com.team5959.subsystems.ElevatorSubsytem;
-import java.util.function.BooleanSupplier; 
+import java.util.function.BooleanSupplier;
+
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command; 
 public class ElevatorCommand extends Command{
 
@@ -19,6 +21,7 @@ public class ElevatorCommand extends Command{
         this.crossButtonIsPressedSupplier= crossButtonIsPressedSupplier;
         this.circleButtonIsPressedSupplier = circleButtonIsPressedSupplier;
         this.triangleButtonIsPressedSupplier = triangleButtonIsPressedSupplier;
+     
         addRequirements(elevatorSubsytem);
     }
 
@@ -30,7 +33,7 @@ public class ElevatorCommand extends Command{
         boolean crossButtonIsPressed = crossButtonIsPressedSupplier.getAsBoolean();
         boolean circleButtonIsPressed = circleButtonIsPressedSupplier.getAsBoolean();
         boolean triangleButtonIsPressed = triangleButtonIsPressedSupplier.getAsBoolean();
-
+   
 
         //set different positons of the elevator
         if (crossButtonIsPressed) {
@@ -48,5 +51,9 @@ public class ElevatorCommand extends Command{
     @Override
     public boolean isFinished() {
     return false;
+    }
+    @Override
+    public void end(boolean interrupted) {
+        elevatorSubsytem.stopElevator();
     }
 }

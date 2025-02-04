@@ -43,7 +43,7 @@ public class RobotContainer {
 
     //swerveSubs.setDefaultCommand(new S_DriveCommand(swerveSubs, () -> -.getLeftY(), () -> -xbox.getLeftX(), () -> -xbox.getRightX(), true));
     swerveChassis.setDefaultCommand(new SwerveDrive(swerveChassis, () -> -control.getLeftY(), () -> -control.getLeftX(), () -> control.getRightX(), true));
-    elevatorSubsytem.setDefaultCommand(new ElevatorCommand(elevatorSubsytem, () -> control.getCrossButtonPressed(), ()-> control.getCircleButtonPressed(), ()-> control.getTriangleButtonPressed()));
+    elevatorSubsytem.setDefaultCommand(new ElevatorCommand(elevatorSubsytem, () -> control.getCrossButtonPressed() || controlOp.getRawButtonPressed(3), ()-> control.getCircleButtonPressed() || controlOp.getRawButtonPressed(4), ()-> control.getTriangleButtonPressed()));
   //  armSubsystem.setDefaultCommand(new ArmCommand(armSubsystem, () -> control.getL1Button() || controlOp.getRawButtonPressed(1), ()-> control.getR1Button() || controlOp.getRawButton(2), ()-> control.getL2Axis() || controlOp.getRawAxis(2), ()-> control.getR2Axis() || controlOp.getRawAxis(3)));
     armSubsystem.setDefaultCommand(new ArmCommand(armSubsystem, ()-> controlOp.getRawButtonPressed(1), () -> controlOp.getRawButton(2)));
 
@@ -54,6 +54,7 @@ public class RobotContainer {
   private void configureBindings() {
     
     resetNavxButton.onTrue(new InstantCommand(() -> swerveChassis.resetNavx()));
+
     //resetPosButton.onTrue(new InstantCommand(() -> swerveChassis.resetOdometry(new Pose2d(0, 0, new Rotation2d(0)))));
     
   }

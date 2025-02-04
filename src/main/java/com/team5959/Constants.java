@@ -143,6 +143,9 @@ public class Constants {
         public static final double elevatorStartingPosition = 0.00;
         public static final double elevatorPositionOne = 20.00;
         public static final double elevatorPositionTwo = 40.00;
+
+        public static final int elevatorLimitSwitchID = 0;
+
       }
 
       //ARM CONSTANTS

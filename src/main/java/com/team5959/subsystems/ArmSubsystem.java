@@ -10,7 +10,6 @@ import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-
 public class ArmSubsystem extends SubsystemBase{
     //INITIALIZATION
 
@@ -47,7 +46,7 @@ public class ArmSubsystem extends SubsystemBase{
     public void moveToScoringPosition(){
         setArmTargetPosition(ArmConstants.armScoringPosition);
     }
-    
+
     @Override
     public void periodic() {
         double pidOutput = armPID.calculate(armEncoder.getPosition(), armTargetPosition); // Calculate PID output
