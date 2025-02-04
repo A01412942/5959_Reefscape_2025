@@ -67,7 +67,7 @@ public class RobotContainer {
   private void configureBindings() {
     
     resetNavxButton.onTrue(new InstantCommand(() -> swerveChassis.resetNavx()));
-    resetPosButton.onTrue(new InstantCommand(() -> swerveChassis.resetOdometry(new Pose2d(0, 0, new Rotation2d(0)))));
+   // resetPosButton.onTrue(new InstantCommand(() -> swerveChassis.resetOdometry(new Pose2d(0, 0, new Rotation2d(0)))));
     
   }
   
