@@ -15,17 +15,14 @@ public class ArmCommand extends Command{
 
     private final ArmSubsystem armSubsystem;
 
-    private BooleanSupplier L1IsPressedSupplier, R1IsPressedSupplier, test;
+    private BooleanSupplier bottonAIsPressedSupplier, bottonBIsPressedSupplier;
+    
 
-    private DoubleSupplier L2IsPressedSupplier, R2IsPressedSupplier;
-
-
-    public ArmCommand(ArmSubsystem armSubsystem, BooleanSupplier L1IsPressedSupplier , BooleanSupplier R1IsPressedSupplier, DoubleSupplier L2IsPressedSupplier, DoubleSupplier R2IsPressedSupplier){
+    public ArmCommand(ArmSubsystem armSubsystem, BooleanSupplier bottonAIsPressedSupplier , BooleanSupplier bottonBIsPressedSupplier){
         this.armSubsystem = armSubsystem;
-        this.L1IsPressedSupplier = L1IsPressedSupplier;
-        this.R1IsPressedSupplier = R1IsPressedSupplier;
-        this.L2IsPressedSupplier = L2IsPressedSupplier;
-        this.R2IsPressedSupplier = R2IsPressedSupplier;
+        this.bottonAIsPressedSupplier = bottonAIsPressedSupplier;
+        this.bottonBIsPressedSupplier = bottonBIsPressedSupplier;
+     
         addRequirements(armSubsystem);
     }
 
@@ -34,29 +31,20 @@ public class ArmCommand extends Command{
         // ALTERING VALUES
 
         //Joystick buttons -> boolean
-        boolean L1IsPressed = L1IsPressedSupplier.getAsBoolean();
-        boolean R1IsPressed = R1IsPressedSupplier.getAsBoolean();
+        boolean bottonAIsPressed = bottonAIsPressedSupplier.getAsBoolean();
+        boolean bottonBIsPressed = bottonBIsPressedSupplier.getAsBoolean();
 
-        //Joystick buttons -> double
-        double L2IsPressed = L2IsPressedSupplier.getAsDouble();
-        double R2IsPressed = R2IsPressedSupplier.getAsDouble();
-
+        
 
         //set different positons of the elevator
-        if (L1IsPressed) {
-        armSubsystem.moveToStartingPosition();
+        if (bottonAIsPressed) {
+        armSubsystem.moveToPositionCero();
         }
-        if (R1IsPressed) {
-        armSubsystem.moveToCoralPosition();
+        if (bottonBIsPressed) {
+        armSubsystem.moveToScoringPosition();
         }
 
-        if (L2IsPressed > 0.5) {
-            armSubsystem.moveManualArm(L2IsPressed);
-        }
         
-        if (R2IsPressed > 0.5) {
-            armSubsystem.moveManualArm(R2IsPressed);
-        }
     } 
     // Returns true when the command should end.
     @Override

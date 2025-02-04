@@ -23,11 +23,7 @@ public class ArmSubsystem extends SubsystemBase{
 
     private final PIDController armPID;
 
-    private double armPosition;
-
-    private boolean controlMode = false;
-
-    private double armVelocity;
+    private double armTargetPosition;
 
     public ArmSubsystem(){
         //instatiate motors, config and encoder
@@ -40,42 +36,22 @@ public class ArmSubsystem extends SubsystemBase{
     }
 
     // Method to set a target position
-    public void moveArmPosition(double position) {
-        armPosition = position;
+    public void setArmTargetPosition(double position) {
+        armTargetPosition = position;
     }
 
-    // Preset positions
-    public void moveToStartingPosition() {
-        controlMode = false;
-        moveArmPosition(ArmConstants.armStartingPosition);  // Move to Starting position
+    public void moveToPositionCero(){
+        setArmTargetPosition(ArmConstants.armStartingPosition);
     }
 
-    public void moveToCoralPosition() {
-        controlMode = false;
-        moveArmPosition(ArmConstants.armCoralPosition);  // Move to Coral position
+    public void moveToScoringPosition(){
+        setArmTargetPosition(ArmConstants.armScoringPosition);
     }
-
-    public void moveManualArm(double triggerIn) {
-        controlMode = true;
-        armVelocity = triggerIn - ArmConstants.ARM_SPEED_REDUCER;
-    }
-
-    public void moveInvertedManualArm(double triggerIn) {
-        controlMode = true;
-        armVelocity = -triggerIn + ArmConstants.ARM_SPEED_REDUCER;
-    }
-
-
+    
     @Override
     public void periodic() {
-
-        if(controlMode) { // If not in manual control mode
-        // PID control mode
-        double pidOutput = armPID.calculate(armEncoder.getPosition(), armPosition); // Calculate PID output
+        double pidOutput = armPID.calculate(armEncoder.getPosition(), armTargetPosition); // Calculate PID output
         armMotor.set(pidOutput); // Set the motor to the calculated PID output
-        } else {
-            armMotor.set(armVelocity);
-        }       
     }
 
     // Method to check if the motor has reached the target position

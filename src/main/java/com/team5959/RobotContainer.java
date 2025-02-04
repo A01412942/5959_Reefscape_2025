@@ -35,9 +35,9 @@ public class RobotContainer {
 
   //drive buttons
   private final JoystickButton resetNavxButton = new JoystickButton(control, 10);
-  private final JoystickButton resetPosButton = new JoystickButton(control, 1);
+  //private final JoystickButton resetPosButton = new JoystickButton(control, 1);
   //AXIS
-  private final int joystickAxis = PS4Controller.Axis.kRightY.value;
+  //private final int joystickAxis = PS4Controller.Axis.kRightY.value;
   
   public RobotContainer() {
 
@@ -45,13 +45,7 @@ public class RobotContainer {
     swerveChassis.setDefaultCommand(new SwerveDrive(swerveChassis, () -> -control.getLeftY(), () -> -control.getLeftX(), () -> control.getRightX(), true));
     elevatorSubsytem.setDefaultCommand(new ElevatorCommand(elevatorSubsytem, () -> control.getCrossButtonPressed(), ()-> control.getCircleButtonPressed(), ()-> control.getTriangleButtonPressed()));
   //  armSubsystem.setDefaultCommand(new ArmCommand(armSubsystem, () -> control.getL1Button() || controlOp.getRawButtonPressed(1), ()-> control.getR1Button() || controlOp.getRawButton(2), ()-> control.getL2Axis() || controlOp.getRawAxis(2), ()-> control.getR2Axis() || controlOp.getRawAxis(3)));
-  armSubsystem.setDefaultCommand(new ArmCommand(
-    armSubsystem,
-    () -> control.getL1Button() || controlOp.getRawButton(1),
-    () -> control.getR1Button() || controlOp.getRawButton(2),
-    () -> control.getL2Axis() > 0.5 ? control.getL2Axis() : controlOp.getRawAxis(2),  //FIXME what the hell is this , must be tested
-    () -> control.getR2Axis() > 0.5 ? control.getR2Axis() : controlOp.getRawAxis(3)
-));
+    armSubsystem.setDefaultCommand(new ArmCommand(armSubsystem, ()-> controlOp.getRawButtonPressed(1), () -> controlOp.getRawButton(2)));
 
 
     configureBindings();
@@ -60,7 +54,7 @@ public class RobotContainer {
   private void configureBindings() {
     
     resetNavxButton.onTrue(new InstantCommand(() -> swerveChassis.resetNavx()));
-    resetPosButton.onTrue(new InstantCommand(() -> swerveChassis.resetOdometry(new Pose2d(0, 0, new Rotation2d(0)))));
+    //resetPosButton.onTrue(new InstantCommand(() -> swerveChassis.resetOdometry(new Pose2d(0, 0, new Rotation2d(0)))));
     
   }
   
