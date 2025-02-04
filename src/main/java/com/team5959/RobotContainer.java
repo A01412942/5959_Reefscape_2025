@@ -58,10 +58,10 @@ public class RobotContainer {
     () -> control.getL2Axis() > 0.5 ? control.getL2Axis() : controlOp.getRawAxis(2),  //FIXME what the hell is this , must be tested
     () -> control.getR2Axis() > 0.5 ? control.getR2Axis() : controlOp.getRawAxis(3)
 ));
-    IntakeSubsystem.setDefaultCommand(new IntakeCommand(IntakeSubsystem, () -> control.getSquareButtonPressed(), () -> control.getSquareButtonPressed()  && control.getR3ButtonPressed()));
+    IntakeSubsystem.setDefaultCommand(new IntakeCommand(IntakeSubsystem, () -> control.getSquareButtonPressed() || controlOp.getRawButton(3), () -> control.getSquareButtonPressed()  && control.getL3ButtonPressed() || controlOp.getRawButton(9) && controlOp.getRawButton(3)));
 
 
-    configureBindings();
+    configureBindings();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
   }
 
   private void configureBindings() {

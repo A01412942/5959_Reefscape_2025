@@ -10,12 +10,12 @@ public class IntakeCommand extends Command{
     //INITIALIZATION
 
     private final IntakeSubsystem intakeSubsystem;
-    private final BooleanSupplier squareButtonisPressedSupplier, squareInversedisPressedSupplier;
+    private final BooleanSupplier squareButtonSupplier, invertedIntakeSupplier;
 
-    public IntakeCommand(IntakeSubsystem intakeSubsystem, BooleanSupplier squareButtonisPressedSupplier, BooleanSupplier squareInversedBooleanSupplier){
+    public IntakeCommand(IntakeSubsystem intakeSubsystem, BooleanSupplier squareButtonSupplier, BooleanSupplier invertedIntakeSupplier){
         this.intakeSubsystem = intakeSubsystem;
-        this.squareButtonisPressedSupplier = squareButtonisPressedSupplier;
-        this.squareInversedisPressedSupplier = squareInversedBooleanSupplier;
+        this.squareButtonSupplier = squareButtonSupplier;
+        this.invertedIntakeSupplier = invertedIntakeSupplier;
         addRequirements(intakeSubsystem);
     }
     @Override
@@ -23,16 +23,25 @@ public class IntakeCommand extends Command{
         // ALTERING VALUES
 
         //Joystick buttons -> boolean
-        boolean squareButtonisPressed = squareButtonisPressedSupplier.getAsBoolean();
-        boolean squareInversedBooleanSupplier = squareInversedisPressedSupplier.getAsBoolean();
+        boolean squareButton = squareButtonSupplier.getAsBoolean();
+        boolean invertedIntake = invertedIntakeSupplier.getAsBoolean();
 
         //set different positons of the elevator
-        if (squareButtonisPressed) {
-            intakeSubsystem.runIntake(0.6);
-        } else if (squareInversedBooleanSupplier) {
+        if (invertedIntake) {
             intakeSubsystem.runIntake(-0.6);
-        } else{
-            intakeSubsystem.stopIntake();
+        } else if (squareButton) {
+            intakeSubsystem.runIntake(0.6);
+        } else {
+            intakeSubsystem.stopIntake();}
         }
+
+    
+      
+            @Override
+    public boolean isFinished() {
+        return false; // Command never finishes on its own
     }
+
+  
+    
 }
