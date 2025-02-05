@@ -130,7 +130,7 @@ public class Constants {
 
         //ELEVATOR CONSTANTS
         public static class ElevatorConstants{
-        public static final int elevatorRightID = 16;
+        public static final int elevatorRightID = 18;
         public static final int elevatorLeftID= 17;
         public static final boolean elevatorRightInverted = false;
         public static final boolean elevatorLeftInverted = true;
@@ -150,15 +150,16 @@ public class Constants {
 
       //ARM CONSTANTS
       public static class ArmConstants{
-        public static final int armMotorID = 18;
+        public static final int armMotorID = 16;
 
         //PID VALUES
-        public static final double KP_ARM = 0.035;
-        public static final double KI_ARM = 0.000; //FIXME adjust pid values for arm
-        public static final double KD_ARM = 0.0004;
+        public static final double KP_ARM = 0.01;
+        public static final double KI_ARM = 0.0008; //FIXME adjust pid values for arm
+        public static final double KD_ARM = 0.008;
         //POSITION VALUES (in encoder units)
         public static final double armStartingPosition = 0.00;
-        public static final double armScoringPosition = 20.00;
-
+        public static final double armCoralPosition = 20.00;
+        //SPEED REDUCER
+        public static final double ARM_SPEED_REDUCER = 0.5;
       }
     }

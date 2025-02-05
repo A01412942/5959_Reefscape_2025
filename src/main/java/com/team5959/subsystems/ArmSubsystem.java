@@ -51,6 +51,12 @@ public class ArmSubsystem extends SubsystemBase{
     public void periodic() {
         double pidOutput = armPID.calculate(armEncoder.getPosition(), armTargetPosition); // Calculate PID output
         armMotor.set(pidOutput); // Set the motor to the calculated PID output
+        } else {
+            armMotor.set(armVelocity);
+        
+        //SmartDashboard
+        SmartDashboard.putNumber("Arm Position", armEncoder.getPosition());
+        }       
     }
 
     // Method to check if the motor has reached the target position
