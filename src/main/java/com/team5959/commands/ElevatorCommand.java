@@ -52,8 +52,5 @@ public class ElevatorCommand extends Command{
     public boolean isFinished() {
     return false;
     }
-    @Override
-    public void end(boolean interrupted) {
-        elevatorSubsytem.stopElevator();
-    }
+    
 }

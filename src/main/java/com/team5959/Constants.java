@@ -145,7 +145,7 @@ public class Constants {
         public static final double elevatorPositionTwo = 40.00;
 
         public static final int elevatorLimitSwitchUpID = 0;
-        public static final int elevatorLimitSwitchDownID=1;
+        public static final int elevatorLimitSwitchDownID =1;
 
       }
 
