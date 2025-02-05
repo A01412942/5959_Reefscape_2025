@@ -14,6 +14,7 @@ import edu.wpi.first.math.controller.PIDController;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.DigitalInput; //0 is pressed, 1 is not pressed
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 
@@ -105,8 +106,12 @@ public class ElevatorSubsytem extends SubsystemBase{
        
         // PID control mode
         double pidOutput = elevatorPID.calculate(elevatorEncoder.getPosition(), targetPosition);
+        if (!LimitSwitchState()) {
+            stopElevator();
+        }else{
         elevatorRight.set(pidOutput); // Set the motor to the calculated PID output
-        
+        }
+    
     }
 
     public void stopElevator(){
@@ -116,4 +121,5 @@ public class ElevatorSubsytem extends SubsystemBase{
     public boolean atTargetPosition() {
         return elevatorPID.atSetpoint();
     }
+
 }
