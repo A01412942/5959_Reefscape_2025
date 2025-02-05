@@ -15,10 +15,7 @@ public class ArmCommand extends Command{
 
     private final ArmSubsystem armSubsystem;
 
-    private BooleanSupplier L1IsPressedSupplier, R1IsPressedSupplier, test;
-
-    private DoubleSupplier L2IsPressedSupplier, R2IsPressedSupplier;
-
+    private BooleanSupplier bottonAIsPressedSupplier, bottonBIsPressedSupplier;
 
     public ArmCommand(ArmSubsystem armSubsystem, BooleanSupplier bottonAIsPressedSupplier , BooleanSupplier bottonBIsPressedSupplier){
         this.armSubsystem = armSubsystem;

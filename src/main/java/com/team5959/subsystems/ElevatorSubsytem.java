@@ -7,13 +7,12 @@ import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.team5959.Constants;
-import com.team5959.Constants.ArmConstants;
 import com.team5959.Constants.ElevatorConstants;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
-
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.DigitalInput; //0 is pressed, 1 is not pressed
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
 
@@ -35,7 +34,10 @@ public class ElevatorSubsytem extends SubsystemBase{
 
     private double targetPosition;
 
-    private final DigitalInput elevatorLimitSwitch;
+    private final DigitalInput elevatorLimitSwitchUp;
+    private final DigitalInput elevatorLimitSwitchDown;
+
+    private boolean PIDOn;
     
     public ElevatorSubsytem(){
         //instatiate motors, config and encoder
@@ -47,7 +49,8 @@ public class ElevatorSubsytem extends SubsystemBase{
         elevatorRightConfig = new SparkMaxConfig();
         elevatorLeftConfig = new SparkMaxConfig();
 
-        elevatorLimitSwitch = new DigitalInput(ElevatorConstants.elevatorLimitSwitchID);
+        elevatorLimitSwitchUp = new DigitalInput(ElevatorConstants.elevatorLimitSwitchUpID);
+        elevatorLimitSwitchDown = new DigitalInput(ElevatorConstants.elevatorLimitSwitchDownID);
 
         elevatorLeftConfig.follow(elevatorRight, ElevatorConstants.elevatorLeftInverted);
         elevatorLeftConfig.idleMode(IdleMode.kBrake);
@@ -66,31 +69,27 @@ public class ElevatorSubsytem extends SubsystemBase{
         targetPosition = elevatorEncoder.getPosition(); // Set target to current position
     }
 
-    public boolean LimitSwitchState() {
-        return elevatorLimitSwitch.get();
+    public boolean LimitSwitchUpState() {
+        return !elevatorLimitSwitchUp.get();
     }
 
-    public void moveElevator(double speed) {
-        if (LimitSwitchState() && speed > 0) {
-            elevatorRight.set(0); // Stop the motor if the limit switch is pressed and the elevator is moving up
-        } else {
-            elevatorRight.set(speed);
-        }
+    public boolean LimitSwitchDownState() {
+        return !elevatorLimitSwitchDown.get();
     }
 
     // Preset positions
     public void moveToPositionCero() {
-        
+        PIDOn = true;
         setTargetPosition(Constants.ElevatorConstants.elevatorStartingPosition);  // Move to preset position 0
     }
 
     public void moveToPositionOne() {
-        
+        PIDOn = true;
         setTargetPosition(Constants.ElevatorConstants.elevatorPositionOne);  // Move to preset position 1
     }
 
     public void moveToPositionTwo() {
-        
+        PIDOn = true;
         setTargetPosition(Constants.ElevatorConstants.elevatorPositionTwo);  // Move to preset position 2
     }
 
@@ -98,15 +97,21 @@ public class ElevatorSubsytem extends SubsystemBase{
     public void setTargetPosition(double position) {
         targetPosition = position;
     }
-
     
     @Override
     public void periodic() {
-       
         // PID control mode
         double pidOutput = elevatorPID.calculate(elevatorEncoder.getPosition(), targetPosition);
-        elevatorRight.set(pidOutput); // Set the motor to the calculated PID output
-        
+        // Clamp the PID output to a safe range
+        if (LimitSwitchUpState()){
+        pidOutput = MathUtil.clamp(pidOutput, -1.0, 0);
+        } else if (LimitSwitchDownState()){
+        pidOutput = MathUtil.clamp(pidOutput, 0, 1);    
+        }else {
+        pidOutput = MathUtil.clamp(pidOutput, -1.0, 1.0);
+        }
+
+        elevatorRight.set(pidOutput);
     }
 
     public void stopElevator(){
