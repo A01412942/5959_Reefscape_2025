@@ -136,19 +136,17 @@ public class Constants {
         public static final boolean elevatorLeftInverted = true;
         
         //PID VALUES
-        public static final double KP_ELEVATOR = 0.01;
+        public static final double KP_ELEVATOR = 0.035;
         public static final double KI_ELEVATOR = 0.000; //FIXME adjust pid values for elevator
-        public static final double KD_ELEVATOR = 0.00;
+        public static final double KD_ELEVATOR = 0.0004;
         //POSITION VALUES (in encoder units)
         public static final double elevatorStartingPosition = 0.00;
         public static final double elevatorPositionOne = 20.00;
         public static final double elevatorPositionTwo = 40.00;
 
-        public static final int elevatorLimitSwitchUpID = 0;
-        public static final int elevatorLimitSwitchDownID = 1;
+        public static final int elevatorLimitSwitchID = 0;
 
       }
-
       //ARM CONSTANTS
       public static class ArmConstants{
         public static final int armMotorID = 18;
@@ -159,8 +157,7 @@ public class Constants {
         public static final double KD_ARM = 0.0004;
         //POSITION VALUES (in encoder units)
         public static final double armStartingPosition = 0.00;
-        public static final double armCoralPosition = 20.00;
-        //SPEED REDUCER
-        public static final double ARM_SPEED_REDUCER = 0.5;
+        public static final double armScoringPosition = 20.00;
+
       }
     }
