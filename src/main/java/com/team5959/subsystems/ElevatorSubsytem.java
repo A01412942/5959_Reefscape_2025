@@ -105,8 +105,10 @@ public class ElevatorSubsytem extends SubsystemBase{
         double pidOutput = elevatorPID.calculate(elevatorEncoder.getPosition(), targetPosition);
         // Clamp the PID out
         if (LimitSwitchUpState()){
+        targetPosition = elevatorEncoder.getPosition();
         pidOutput = MathUtil.clamp(pidOutput, -1.0, 0);
         } else if (LimitSwitchDownState()){
+        targetPosition = elevatorEncoder.getPosition();
         pidOutput = MathUtil.clamp(pidOutput, 0, 1); 
         }else {
         pidOutput = MathUtil.clamp(pidOutput, -1.0, 1.0);
