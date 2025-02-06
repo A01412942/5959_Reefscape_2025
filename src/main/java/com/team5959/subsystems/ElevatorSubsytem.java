@@ -12,6 +12,7 @@ import com.team5959.Constants.ElevatorConstants;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput; //0 is pressed, 1 is not pressed
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
@@ -102,11 +103,11 @@ public class ElevatorSubsytem extends SubsystemBase{
     public void periodic() {
         // PID control mode
         double pidOutput = elevatorPID.calculate(elevatorEncoder.getPosition(), targetPosition);
-        // Clamp the PID output to a safe range
+        // Clamp the PID out
         if (LimitSwitchUpState()){
         pidOutput = MathUtil.clamp(pidOutput, -1.0, 0);
         } else if (LimitSwitchDownState()){
-        pidOutput = MathUtil.clamp(pidOutput, 0, 1);    
+        pidOutput = MathUtil.clamp(pidOutput, 0, 1); 
         }else {
         pidOutput = MathUtil.clamp(pidOutput, -1.0, 1.0);
         }
