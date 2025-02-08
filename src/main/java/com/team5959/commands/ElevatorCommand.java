@@ -1,24 +1,27 @@
 package com.team5959.commands;
 
+import edu.wpi.first.wpilibj2.command.Command; 
+import java.util.function.BooleanSupplier; 
+
 import com.team5959.Constants.ElevatorConstants;
 import com.team5959.RobotContainer;
 import com.team5959.subsystems.ElevatorSubsytem;
-import java.util.function.BooleanSupplier; 
-import edu.wpi.first.wpilibj2.command.Command; 
+
 public class ElevatorCommand extends Command{
 
     //INITIALIZATION
-
     private final ElevatorSubsytem elevatorSubsytem;
 
-    private final BooleanSupplier crossButtonIsPressedSupplier, circleButtonIsPressedSupplier, triangleButtonIsPressedSupplier;
+    private final BooleanSupplier buttonAIsPressedSupplier, buttonXIsPressedSupplier, buttonYIsPressedSupplier, buttonBIsPressedSupplier;
 
-
-    public ElevatorCommand(ElevatorSubsytem elevatorSubsytem, BooleanSupplier crossButtonIsPressedSupplier, BooleanSupplier circleButtonIsPressedSupplier, BooleanSupplier triangleButtonIsPressedSupplier){
+    //CONSTRUCTOR
+    public ElevatorCommand(ElevatorSubsytem elevatorSubsytem, BooleanSupplier buttonAIsPressedSupplier, BooleanSupplier buttonXIsPressedSupplier, BooleanSupplier buttonYIsPressedSupplier, BooleanSupplier buttonBIsPressedSupplier){
         this.elevatorSubsytem = elevatorSubsytem;
-        this.crossButtonIsPressedSupplier= crossButtonIsPressedSupplier;
-        this.circleButtonIsPressedSupplier = circleButtonIsPressedSupplier;
-        this.triangleButtonIsPressedSupplier = triangleButtonIsPressedSupplier;
+        this.buttonAIsPressedSupplier = buttonAIsPressedSupplier;
+        this.buttonXIsPressedSupplier= buttonXIsPressedSupplier;
+        this.buttonYIsPressedSupplier = buttonYIsPressedSupplier;
+        this.buttonBIsPressedSupplier = buttonBIsPressedSupplier;
+
         addRequirements(elevatorSubsytem);
     }
 
@@ -27,20 +30,24 @@ public class ElevatorCommand extends Command{
         // ALTERING VALUES
 
         //Joystick buttons -> boolean
-        boolean crossButtonIsPressed = crossButtonIsPressedSupplier.getAsBoolean();
-        boolean circleButtonIsPressed = circleButtonIsPressedSupplier.getAsBoolean();
-        boolean triangleButtonIsPressed = triangleButtonIsPressedSupplier.getAsBoolean();
+        boolean buttonAIsPressed = buttonAIsPressedSupplier.getAsBoolean();
+        boolean buttonXIsPressed = buttonXIsPressedSupplier.getAsBoolean();
+        boolean buttonYIsPressed = buttonYIsPressedSupplier.getAsBoolean();
+        boolean buttonBIsPressed = buttonBIsPressedSupplier.getAsBoolean();
 
 
         //set different positons of the elevator
-        if (crossButtonIsPressed) {
-        elevatorSubsytem.moveToPositionCero();
+        if (buttonAIsPressed) {
+            elevatorSubsytem.moveToStartingPosition();
         }
-        if (circleButtonIsPressed) {
-        elevatorSubsytem.moveToPositionOne();
+        if (buttonXIsPressed) {
+            elevatorSubsytem.moveToL1Position();
         }
-        if (triangleButtonIsPressed) {
-        elevatorSubsytem.moveToPositionTwo();
+        if (buttonYIsPressed) {
+            elevatorSubsytem.moveToL2Position();
+        }
+        if(buttonBIsPressed){
+            elevatorSubsytem.moveToL3Position();
         }
     
     } 

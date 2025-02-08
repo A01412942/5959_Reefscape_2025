@@ -3,16 +3,15 @@ package com.team5959.subsystems;
 import com.team5959.Constants;
 import com.team5959.Constants.ElevatorConstants;
 
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.math.controller.PIDController;
+
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.spark.config.SparkBaseConfig;
-import com.revrobotics.spark.config.SparkMaxConfig;
-import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.RelativeEncoder;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard; //FIXME Add smartdashboard
-
+import com.revrobotics.spark.config.SparkBaseConfig;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.config.SparkMaxConfig;
 
 public class ElevatorSubsytem extends SubsystemBase{
     //INITIALIZATION
@@ -28,8 +27,10 @@ public class ElevatorSubsytem extends SubsystemBase{
     //initialize encoder
     private final RelativeEncoder elevatorEncoder;
 
+    //initialize PID controller
     private final PIDController elevatorPID;
 
+    //Target position
     private double targetPosition;
     
     public ElevatorSubsytem(){
@@ -50,31 +51,34 @@ public class ElevatorSubsytem extends SubsystemBase{
         elevatorLeft.configure(elevatorLeftConfig, null, null);
         elevatorRight.configure(elevatorRightConfig, null, null);
 
-
         elevatorEncoder.setPosition(Constants.ElevatorConstants.elevatorStartingPosition);
+
         elevatorPID = new PIDController(Constants.ElevatorConstants.KP_ELEVATOR, Constants.ElevatorConstants.KI_ELEVATOR, Constants.ElevatorConstants.KD_ELEVATOR);
     }
     public void holdCurrentPosition() {
-        
-        targetPosition = elevatorEncoder.getPosition(); // Set target to current position
+        // Set target to current position
+        targetPosition = elevatorEncoder.getPosition(); 
     }
 
-
-
-    // Preset positions
-    public void moveToPositionCero() {
-        
-        setTargetPosition(Constants.ElevatorConstants.elevatorStartingPosition);  // Move to preset position 0
+    //PRESET POSITIONS
+    public void moveToStartingPosition() {
+        // Move to preset position 0
+        setTargetPosition(Constants.ElevatorConstants.elevatorStartingPosition);  
     }
 
-    public void moveToPositionOne() {
-        
-        setTargetPosition(Constants.ElevatorConstants.elevatorPositionOne);  // Move to preset position 1
+    public void moveToL1Position() {     
+        // Move to preset L1 position
+        setTargetPosition(Constants.ElevatorConstants.elevatorL1Position);  
     }
 
-    public void moveToPositionTwo() {
-        
-        setTargetPosition(Constants.ElevatorConstants.elevatorPositionTwo);  // Move to preset position 2
+    public void moveToL2Position() {
+        // Move to preset L2 position
+        setTargetPosition(Constants.ElevatorConstants.elevatorL2Position);  
+    }
+
+    public void moveToL3Position() {
+        // Move to preset L3 position
+        setTargetPosition(Constants.ElevatorConstants.elevatorL3Position);  
     }
 
     // Method to set a target position
@@ -84,12 +88,9 @@ public class ElevatorSubsytem extends SubsystemBase{
 
     @Override
     public void periodic() {
-       
         // PID control mode
         double pidOutput = elevatorPID.calculate(elevatorEncoder.getPosition(), targetPosition);
         elevatorRight.set(pidOutput); // Set the motor to the calculated PID output
-        
-       
     }
 
     // Method to check if the motor has reached the target position

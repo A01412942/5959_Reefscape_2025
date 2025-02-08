@@ -135,13 +135,14 @@ public class Constants {
       public static final boolean elevatorLeftInverted = true;
         
       //PID VALUES
-      public static final double KP_ELEVATOR = 0.01;
-      public static final double KI_ELEVATOR = 0.0008; //FIXME adjust pid values for elevator
-      public static final double KD_ELEVATOR = 0.008;
+      public static final double KP_ELEVATOR = 0.035;
+      public static final double KI_ELEVATOR = 0.000; //FIXME adjust pid values for elevator
+      public static final double KD_ELEVATOR = 0.0004;
       //POSITION VALUES (in encoder units)
       public static final double elevatorStartingPosition = 0.00;
-      public static final double elevatorPositionOne = 20.00;
-      public static final double elevatorPositionTwo = 40.00;
+      public static final double elevatorL1Position = 20.00;
+      public static final double elevatorL2Position = 40.00;
+      public static final double elevatorL3Position = 60.00;
     }
 
     //ARM CONSTANTS
@@ -164,21 +165,5 @@ public class Constants {
       //ID's
       public static final int coralIntakeMotorID = 19;
       public static final int algaeIntakeMotorID = 20;
-    }
-    
-    public static class ElevatorConstants{
-        public static final int elevatorRightID = 16;
-        public static final int elevatorLeftID= 17;
-        public static final boolean elevatorRightInverted = false;
-        public static final boolean elevatorLeftInverted = true;
-
-        //PID VALUES
-        public static final double KP_ELEVATOR = 0.01;
-        public static final double KI_ELEVATOR = 0.0008; //FIXME adjust pid values for elevator
-        public static final double KD_ELEVATOR = 0.008;
-        //POSITION VALUES (in encoder units)
-        public static final double elevatorStartingPosition = 0.00;
-        public static final double elevatorPositionOne = 20.00;
-        public static final double elevatorPositionTwo = 40.00;
     }
 }
