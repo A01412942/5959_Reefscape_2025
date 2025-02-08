@@ -3,35 +3,35 @@ package com.team5959.subsystems;
 import com.team5959.Constants;
 import com.team5959.Constants.ArmConstants;
 
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.spark.SparkMax;
-
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.math.controller.PIDController;
 
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.RelativeEncoder;
 
-public class ArmSubsystem extends SubsystemBase{
+public class ArmIntakeSubsystem extends SubsystemBase{
     //INITIALIZATION
 
     //initialize motors
     private final SparkMax armMotor;
 
-
     //initialize encoder
     private final RelativeEncoder armEncoder;
 
+    //initialize PID controller
     private final PIDController armPID;
 
+    //Target position
     private double armTargetPosition;
 
-    public ArmSubsystem(){
+    public ArmIntakeSubsystem(){
         //instatiate motors, config and encoder
         armMotor = new SparkMax(ArmConstants.armMotorID, MotorType.kBrushless);
 
         armEncoder = armMotor.getEncoder();
+        armEncoder.setPosition(ArmConstants.armIntakeInStartingPosition);
 
-        armEncoder.setPosition(Constants.ElevatorConstants.elevatorStartingPosition);
         armPID = new PIDController(ArmConstants.KP_ARM, ArmConstants.KI_ARM, ArmConstants.KD_ARM);
     }
 
@@ -40,18 +40,21 @@ public class ArmSubsystem extends SubsystemBase{
         armTargetPosition = position;
     }
 
-    public void moveToPositionCero(){
-        setArmTargetPosition(ArmConstants.armStartingPosition);
+    public void moveToInPosition(){
+        setArmTargetPosition(ArmConstants.armIntakeInStartingPosition);
     }
 
-    public void moveToScoringPosition(){
-        setArmTargetPosition(ArmConstants.armScoringPosition);
+    public void moveToOutPosition(){
+        setArmTargetPosition(ArmConstants.armIntakeOutPosition);
     }
     
     @Override
     public void periodic() {
-        double pidOutput = armPID.calculate(armEncoder.getPosition(), armTargetPosition); // Calculate PID output
-        armMotor.set(pidOutput); // Set the motor to the calculated PID output
+        // Calculate PID output
+        double pidOutput = armPID.calculate(armEncoder.getPosition(), armTargetPosition);
+        
+        // Set the motor to the calculated PID output
+        armMotor.set(pidOutput); 
     }
 
     // Method to check if the motor has reached the target position
