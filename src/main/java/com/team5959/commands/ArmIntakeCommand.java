@@ -2,8 +2,6 @@ package com.team5959.commands;
 
 import com.team5959.subsystems.ArmIntakeSubsystem;
 
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import java.util.function.BooleanSupplier;
