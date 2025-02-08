@@ -9,6 +9,8 @@ import com.team5959.Constants.ControllerConstants;
 import com.team5959.commands.SwerveDrive;
 import com.team5959.subsystems.IntakeSubsystem;
 import com.team5959.subsystems.SwerveChassis;
+import com.team5959.subsystems.ArmIntakeSubsystem;
+import com.team5959.commands.ArmIntakeCommand;
 import com.team5959.commands.IntakeCommand;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -20,7 +22,8 @@ import edu.wpi.first.wpilibj.PS4Controller;
 public class RobotContainer {
   //subsystems
   private final SwerveChassis swerveChassis = new SwerveChassis();
-  private final IntakeSubsystem IntakeSubsystem = new IntakeSubsystem();
+  private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+  private final ArmIntakeSubsystem armIntakeSubsystem = new ArmIntakeSubsystem();
 
   //controllers
   private final PS4Controller control = new PS4Controller(ControllerConstants.kDriverControllerPort);
@@ -34,8 +37,8 @@ public class RobotContainer {
   public RobotContainer() {
 
     swerveChassis.setDefaultCommand(new SwerveDrive(swerveChassis, () -> -control.getLeftY(), () -> -control.getLeftX(), () -> control.getRightX(), true));
-    IntakeSubsystem.setDefaultCommand(new IntakeCommand(IntakeSubsystem, ()-> controlOp.getRawAxis(2), ()-> controlOp.getRawAxis(3)));
-    
+    intakeSubsystem.setDefaultCommand(new IntakeCommand(intakeSubsystem, ()-> controlOp.getRawAxis(2), ()-> controlOp.getRawAxis(3)));
+    armIntakeSubsystem.setDefaultCommand(new ArmIntakeCommand(armIntakeSubsystem, ()-> controlOp.getRawButtonPressed(1) && controlOp.getRawButton(9)));
     configureBindings();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
   }
 
