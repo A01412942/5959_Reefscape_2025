@@ -14,33 +14,45 @@ public class IntakeSubsystem extends SubsystemBase {
     //INIZIALIZATION
 
     //initialize motors
-    private final SparkMax intakeMotor;
+    private final SparkMax coralIntakeMotor;
+    private final SparkMax algaeIntakeMotor;
 
     //initialize motor configuration
     
-    private final SparkBaseConfig intakeMotorConfig;
+    private final SparkBaseConfig coralIntakeMotorConfig;
+    private final SparkBaseConfig algaeIntakeMotorConfig;
 
     public IntakeSubsystem (){
         //instatiate motors and config
-        intakeMotor = new SparkMax(IntakeConstants.intakeMotorID, MotorType.kBrushless);
+        coralIntakeMotor = new SparkMax(IntakeConstants.coralIntakeMotorID, MotorType.kBrushless);
+        algaeIntakeMotor = new SparkMax(IntakeConstants.algaeIntakeMotorID, MotorType.kBrushless);
 
-        intakeMotorConfig = new SparkMaxConfig();
+        coralIntakeMotorConfig = new SparkMaxConfig();
+        algaeIntakeMotorConfig = new SparkMaxConfig();
 
-        intakeMotorConfig.idleMode(IdleMode.kBrake);
+        coralIntakeMotorConfig.idleMode(IdleMode.kBrake);
+        algaeIntakeMotorConfig.idleMode(IdleMode.kBrake);
 
-        intakeMotor.configure(intakeMotorConfig, null,null);
+
+        coralIntakeMotor.configure(coralIntakeMotorConfig, null,null);
+        algaeIntakeMotor.configure(algaeIntakeMotorConfig, null,null);
 
     }
 
-    public void runIntake(double speed){
-        intakeMotor.set(speed);
+    public void runCoralIntake(double speed){
+        coralIntakeMotor.set(speed);
     }
 
-    public void runIntakeInverse(double speed){
-        intakeMotor.set(-speed);
+    public void runAlgaeIntake(double speed){
+        algaeIntakeMotor.set(speed);
     }
 
-    public void stopIntake(){
-        intakeMotor.set(0);
+  
+    public void stopCoralIntake(){
+        coralIntakeMotor.set(0);
+    }
+
+    public void stopAlgaeIntake(){
+        algaeIntakeMotor.set(0);
     }
 }

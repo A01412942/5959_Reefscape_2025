@@ -12,7 +12,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 //   3 · frontLeftDrive
 //   4 · frontRightRotation
 //   5 · frontRightDrive
-//   6 · rearRightRotation
+//   6 · rearRightRotation   //FIXME check CAN ID's out
 //   7 · rearRightDrive
 //   8 · rearLeftRotation
 //   9 · rearLeftDrive
@@ -23,7 +23,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 public class Constants {
     public static class ControllerConstants{
         public static final int kDriverControllerPort = 0; //port for driver's control
-        public static final int kMecanismsControllerPort = 1; //port for the mecanism's controller.
+        public static final int kOperatorControllerPort = 1; //port for the mecanism's controller.
     }
 
     public static class SwerveConstants{
@@ -160,7 +160,8 @@ public class Constants {
         public static final double ARM_SPEED_REDUCER = 0.5;
       }
       //INTAKE CONSTANTS
-      public static class IntakeConstants{
-        public static final int intakeMotorID = 19;
+      public static class IntakeConstants{ 
+        public static final int coralIntakeMotorID = 19;
+        public static final int algaeIntakeMotorID = 20;
       }
     }
