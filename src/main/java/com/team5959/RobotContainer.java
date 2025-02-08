@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 // TITANIUM RAMS 5959, FRC 2025
-// Authors: 5959 Programming Team (Beatriz Marún, Jorge Pineda, Danna Hernández, Denis Cerón)
+// Authors: 5959 Programming Team (Beatriz Marún, Jorge Pineda, Danna Hernández, Denis Cerón) & Mentor Sebastian León
 
 package com.team5959;
 
@@ -43,7 +43,7 @@ public class RobotContainer {
 
     swerveChassis.setDefaultCommand(new SwerveDrive(swerveChassis, () -> -control.getLeftY(), () -> -control.getLeftX(), () -> control.getRightX(), true));
     intakeSubsystem.setDefaultCommand(new IntakeCommand(intakeSubsystem, ()-> controlOp.getRawAxis(2), ()-> controlOp.getRawAxis(3)));
-    elevatorSubsytem.setDefaultCommand(new ElevatorCommand(elevatorSubsytem, ()-> controlOp.getRawButtonPressed(1), ()-> controlOp.getRawButtonPressed(3), ()-> controlOp.getRawButton(4), ()-> controlOp.getRawButton(2)));
+    elevatorSubsytem.setDefaultCommand(new ElevatorCommand(elevatorSubsytem, ()-> controlOp.getRawButtonPressed(1), ()-> controlOp.getRawButtonPressed(3), ()-> controlOp.getRawButton(4), ()-> controlOp.getRawButton(2), ()-> controlOp.getRawButton(5), ()-> controlOp.getRawButton(6)));
     armIntakeSubsystem.setDefaultCommand(new ArmIntakeCommand(armIntakeSubsystem, ()-> controlOp.getRawButtonPressed(8)));
     
     configureBindings();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                

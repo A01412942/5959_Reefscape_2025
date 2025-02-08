@@ -32,6 +32,8 @@ public class ElevatorSubsytem extends SubsystemBase{
 
     //Target position
     private double targetPosition;
+
+    private boolean isManualMode = false;
     
     public ElevatorSubsytem(){
         //instatiate motors, config and encoder
@@ -63,21 +65,25 @@ public class ElevatorSubsytem extends SubsystemBase{
     //PRESET POSITIONS
     public void moveToStartingPosition() {
         // Move to preset position 0
+        isManualMode = false;
         setTargetPosition(Constants.ElevatorConstants.elevatorStartingPosition);  
     }
 
     public void moveToL1Position() {     
         // Move to preset L1 position
+        isManualMode = false;
         setTargetPosition(Constants.ElevatorConstants.elevatorL1Position);  
     }
 
     public void moveToL2Position() {
         // Move to preset L2 position
+        isManualMode = false;
         setTargetPosition(Constants.ElevatorConstants.elevatorL2Position);  
     }
 
     public void moveToL3Position() {
         // Move to preset L3 position
+        isManualMode = false;
         setTargetPosition(Constants.ElevatorConstants.elevatorL3Position);  
     }
 
@@ -86,11 +92,26 @@ public class ElevatorSubsytem extends SubsystemBase{
         targetPosition = position;
     }
 
+    public void elevatorManualMode(double speed){
+        isManualMode = true;
+        elevatorRight.set(speed);
+    }
+
+    public void stopElevator(){
+        isManualMode = true;
+        elevatorRight.set(0);
+    }
+
     @Override
     public void periodic() {
         // PID control mode
-        double pidOutput = elevatorPID.calculate(elevatorEncoder.getPosition(), targetPosition);
-        elevatorRight.set(pidOutput); // Set the motor to the calculated PID output
+        if (!isManualMode) {
+            double pidOutput = elevatorPID.calculate(elevatorEncoder.getPosition(), targetPosition);
+            elevatorRight.set(pidOutput); 
+        } else{
+            isManualMode = true;
+        }
+         // Set the motor to the calculated PID output
     }
 
     // Method to check if the motor has reached the target position

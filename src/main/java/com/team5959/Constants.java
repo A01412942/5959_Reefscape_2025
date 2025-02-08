@@ -1,6 +1,7 @@
 package com.team5959;
 
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 //  =================
 //       Red CAN
@@ -165,5 +166,8 @@ public class Constants {
       //ID's
       public static final int coralIntakeMotorID = 19;
       public static final int algaeIntakeMotorID = 20;
+    }
+    public class Dashboard{
+      public double intakePowerValue = SmartDashboard.getNumber("Intake Power", 0);
     }
 }

@@ -12,15 +12,18 @@ public class ElevatorCommand extends Command{
     //INITIALIZATION
     private final ElevatorSubsytem elevatorSubsytem;
 
-    private final BooleanSupplier buttonAIsPressedSupplier, buttonXIsPressedSupplier, buttonYIsPressedSupplier, buttonBIsPressedSupplier;
+    private final BooleanSupplier buttonAIsPressedSupplier, buttonXIsPressedSupplier, buttonYIsPressedSupplier, buttonBIsPressedSupplier, lbButtonSupplier,rbButtonSupplier;
+
 
     //CONSTRUCTOR
-    public ElevatorCommand(ElevatorSubsytem elevatorSubsytem, BooleanSupplier buttonAIsPressedSupplier, BooleanSupplier buttonXIsPressedSupplier, BooleanSupplier buttonYIsPressedSupplier, BooleanSupplier buttonBIsPressedSupplier){
+    public ElevatorCommand(ElevatorSubsytem elevatorSubsytem, BooleanSupplier buttonAIsPressedSupplier, BooleanSupplier buttonXIsPressedSupplier, BooleanSupplier buttonYIsPressedSupplier, BooleanSupplier buttonBIsPressedSupplier, BooleanSupplier lbBooleanSupplier, BooleanSupplier rbBooleanSupplier){
         this.elevatorSubsytem = elevatorSubsytem;
         this.buttonAIsPressedSupplier = buttonAIsPressedSupplier;
         this.buttonXIsPressedSupplier= buttonXIsPressedSupplier;
         this.buttonYIsPressedSupplier = buttonYIsPressedSupplier;
         this.buttonBIsPressedSupplier = buttonBIsPressedSupplier;
+        this.lbButtonSupplier = lbBooleanSupplier;
+        this.rbButtonSupplier = rbBooleanSupplier;
 
         addRequirements(elevatorSubsytem);
     }
@@ -34,22 +37,55 @@ public class ElevatorCommand extends Command{
         boolean buttonXIsPressed = buttonXIsPressedSupplier.getAsBoolean();
         boolean buttonYIsPressed = buttonYIsPressedSupplier.getAsBoolean();
         boolean buttonBIsPressed = buttonBIsPressedSupplier.getAsBoolean();
-
-
-        //set different positons of the elevator
+        boolean lbButton = lbButtonSupplier.getAsBoolean();
+        boolean rbButton= rbButtonSupplier.getAsBoolean();
+        boolean isManualMode = true;
+        
+        if(isManualMode = false) {
         if (buttonAIsPressed) {
+            isManualMode = false;
             elevatorSubsytem.moveToStartingPosition();
-        }
-        if (buttonXIsPressed) {
+        } else if (buttonXIsPressed) {
+            isManualMode = false;
             elevatorSubsytem.moveToL1Position();
-        }
-        if (buttonYIsPressed) {
+        } else if (buttonYIsPressed) {
+            isManualMode = false;
             elevatorSubsytem.moveToL2Position();
-        }
-        if(buttonBIsPressed){
+        } else if(buttonBIsPressed){
+            isManualMode = false;
             elevatorSubsytem.moveToL3Position();
-        }
+        } else {
+            isManualMode = true;
+        }}
     
+        if (isManualMode){
+            if (lbButton) {
+                isManualMode = true;
+                elevatorSubsytem.elevatorManualMode(-0.4);
+            } else if (rbButton){
+                isManualMode = true;
+                elevatorSubsytem.elevatorManualMode(0.4);
+            } else  if (buttonAIsPressed) {
+                isManualMode = false;
+            } else if (buttonXIsPressed) {
+                isManualMode = false;
+            } else if (buttonYIsPressed) {
+                isManualMode = false;
+            } else if(buttonBIsPressed){
+                isManualMode = false;
+            }else{
+                isManualMode = true;
+                elevatorSubsytem.elevatorManualMode(0);
+            } 
+        }
+        
+    
+                
+                
+                
+
+        
+        
     } 
     // Returns true when the command should end.
     @Override
