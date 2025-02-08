@@ -7,13 +7,16 @@ import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.team5959.Constants;
+import com.team5959.Constants.ArmConstants;
 import com.team5959.Constants.ElevatorConstants;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.DigitalInput; //0 is pressed, 1 is not pressed
-import edu.wpi.first.wpilibj.PowerDistribution;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.DigitalInput; //0 is pressed, 1 is not pressed
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import com.revrobotics.spark.config.SoftLimitConfig;
 
 
 
@@ -28,6 +31,8 @@ public class ElevatorSubsytem extends SubsystemBase{
     private final SparkBaseConfig elevatorLeftConfig;
     private final SparkBaseConfig elevatorRightConfig;
 
+    private final SoftLimitConfig elevatorSoftLimitConfig;
+
     //initialize encoder
     private final RelativeEncoder elevatorEncoder;
 
@@ -35,10 +40,9 @@ public class ElevatorSubsytem extends SubsystemBase{
 
     private double targetPosition;
 
-    private final DigitalInput elevatorLimitSwitchUp;
-    private final DigitalInput elevatorLimitSwitchDown;
+    private double elevatorOutput;
 
-    private boolean PIDOn;
+    private final DigitalInput elevatorLimitSwitchUp, elevatorLimitSwitchDown;
     
     public ElevatorSubsytem(){
         //instatiate motors, config and encoder
@@ -50,6 +54,8 @@ public class ElevatorSubsytem extends SubsystemBase{
         elevatorRightConfig = new SparkMaxConfig();
         elevatorLeftConfig = new SparkMaxConfig();
 
+        elevatorSoftLimitConfig = new SoftLimitConfig();
+
         elevatorLimitSwitchUp = new DigitalInput(ElevatorConstants.elevatorLimitSwitchUpID);
         elevatorLimitSwitchDown = new DigitalInput(ElevatorConstants.elevatorLimitSwitchDownID);
 
@@ -57,6 +63,11 @@ public class ElevatorSubsytem extends SubsystemBase{
         elevatorLeftConfig.idleMode(IdleMode.kBrake);
         elevatorRightConfig.idleMode(IdleMode.kBrake);
         elevatorRightConfig.inverted(ElevatorConstants.elevatorRightInverted);
+    
+    
+        elevatorRightConfig.apply(elevatorSoftLimitConfig);
+        
+        
         
         elevatorLeft.configure(elevatorLeftConfig, null, null);
         elevatorRight.configure(elevatorRightConfig, null, null);
@@ -71,26 +82,27 @@ public class ElevatorSubsytem extends SubsystemBase{
     }
 
     public boolean LimitSwitchUpState() {
-        return !elevatorLimitSwitchUp.get();
+        return elevatorLimitSwitchUp.get();
     }
 
     public boolean LimitSwitchDownState() {
-        return !elevatorLimitSwitchDown.get();
+        return elevatorLimitSwitchDown.get();
     }
+
 
     // Preset positions
     public void moveToPositionCero() {
-        PIDOn = true;
+        
         setTargetPosition(Constants.ElevatorConstants.elevatorStartingPosition);  // Move to preset position 0
     }
 
     public void moveToPositionOne() {
-        PIDOn = true;
+        
         setTargetPosition(Constants.ElevatorConstants.elevatorPositionOne);  // Move to preset position 1
     }
 
     public void moveToPositionTwo() {
-        PIDOn = true;
+        
         setTargetPosition(Constants.ElevatorConstants.elevatorPositionTwo);  // Move to preset position 2
     }
 
@@ -98,30 +110,37 @@ public class ElevatorSubsytem extends SubsystemBase{
     public void setTargetPosition(double position) {
         targetPosition = position;
     }
+
     
     @Override
-    public void periodic() {
+    public void periodic() { //still wont work,, wondering how to make it work
+       
         // PID control mode
         double pidOutput = elevatorPID.calculate(elevatorEncoder.getPosition(), targetPosition);
-        // Clamp the PID out
-        if (LimitSwitchUpState()){
-        targetPosition = elevatorEncoder.getPosition();
-        pidOutput = MathUtil.clamp(pidOutput, -1.0, 0);
-        } else if (LimitSwitchDownState()){
-        targetPosition = elevatorEncoder.getPosition();
-        pidOutput = MathUtil.clamp(pidOutput, 0, 1); 
-        }else {
-        pidOutput = MathUtil.clamp(pidOutput, -1.0, 1.0);
+        if (!LimitSwitchUpState()) {
+           elevatorSoftLimitConfig.forwardSoftLimit(elevatorEncoder.getPosition());
+           elevatorSoftLimitConfig.forwardSoftLimitEnabled(true);
+           elevatorSoftLimitConfig.reverseSoftLimitEnabled(false);
+        } else if (!LimitSwitchDownState()){
+            elevatorSoftLimitConfig.reverseSoftLimit(elevatorEncoder.getPosition());
+            elevatorSoftLimitConfig.forwardSoftLimitEnabled(false);
+            elevatorSoftLimitConfig.reverseSoftLimitEnabled(true);
+        } else {
+            elevatorOutput = pidOutput;
+            elevatorSoftLimitConfig.forwardSoftLimitEnabled(false);
+            elevatorSoftLimitConfig.reverseSoftLimitEnabled(false);
         }
 
-        elevatorRight.set(pidOutput);
+        elevatorRight.set(elevatorOutput);
     }
 
     public void stopElevator(){
         elevatorRight.set(0);
     }
+    
     // Method to check if the motor has reached the target position
     public boolean atTargetPosition() {
         return elevatorPID.atSetpoint();
     }
+
 }
