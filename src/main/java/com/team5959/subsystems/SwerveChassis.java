@@ -57,6 +57,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
     public void resetNavx(){
         navx.reset();
     }
+    
     public Pose2d getPose(){
         return odometer.getPoseMeters();
     }

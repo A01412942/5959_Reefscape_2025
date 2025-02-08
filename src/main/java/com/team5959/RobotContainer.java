@@ -5,8 +5,11 @@
 // Authors: 5959 Programming Team (Beatriz Marún, Jorge Pineda, Danna Hernández, Denis Cerón)
 
 package com.team5959;
+
+import com.team5959.commands.ElevatorCommand;
 import com.team5959.Constants.ControllerConstants;
 import com.team5959.commands.SwerveDrive;
+import com.team5959.subsystems.ElevatorSubsytem;
 import com.team5959.subsystems.IntakeSubsystem;
 import com.team5959.subsystems.SwerveChassis;
 import com.team5959.subsystems.ArmIntakeSubsystem;
@@ -24,6 +27,7 @@ public class RobotContainer {
   private final SwerveChassis swerveChassis = new SwerveChassis();
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   private final ArmIntakeSubsystem armIntakeSubsystem = new ArmIntakeSubsystem();
+  private final ElevatorSubsytem elevatorSubsytem = new ElevatorSubsytem();
 
   //controllers
   private final PS4Controller control = new PS4Controller(ControllerConstants.kDriverControllerPort);
@@ -37,6 +41,9 @@ public class RobotContainer {
   public RobotContainer() {
 
     swerveChassis.setDefaultCommand(new SwerveDrive(swerveChassis, () -> -control.getLeftY(), () -> -control.getLeftX(), () -> control.getRightX(), true));
+    elevatorSubsytem.setDefaultCommand(new ElevatorCommand(elevatorSubsytem, () -> control.getCrossButtonPressed(), ()-> control.getCircleButtonPressed(), ()-> control.getTriangleButtonPressed()));
+    // Configure the trigger bindings   
+    configureBindings();
     intakeSubsystem.setDefaultCommand(new IntakeCommand(intakeSubsystem, ()-> controlOp.getRawAxis(2), ()-> controlOp.getRawAxis(3)));
     armIntakeSubsystem.setDefaultCommand(new ArmIntakeCommand(armIntakeSubsystem, ()-> controlOp.getRawButtonPressed(1) && controlOp.getRawButton(9)));
     configureBindings();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
