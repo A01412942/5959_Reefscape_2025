@@ -3,8 +3,6 @@ package com.team5959.commands;
 import edu.wpi.first.wpilibj2.command.Command; 
 import java.util.function.BooleanSupplier; 
 
-import com.team5959.Constants.ElevatorConstants;
-import com.team5959.RobotContainer;
 import com.team5959.subsystems.ElevatorSubsytem;
 
 public class ElevatorCommand extends Command{
@@ -12,18 +10,18 @@ public class ElevatorCommand extends Command{
     //INITIALIZATION
     private final ElevatorSubsytem elevatorSubsytem;
 
-    private final BooleanSupplier buttonAIsPressedSupplier, buttonXIsPressedSupplier, buttonYIsPressedSupplier, buttonBIsPressedSupplier, lbButtonSupplier,rbButtonSupplier;
+    private final BooleanSupplier buttonAIsPressedSupplier, buttonXIsPressedSupplier, buttonYIsPressedSupplier, buttonBIsPressedSupplier;
 
 
     //CONSTRUCTOR
-    public ElevatorCommand(ElevatorSubsytem elevatorSubsytem, BooleanSupplier buttonAIsPressedSupplier, BooleanSupplier buttonXIsPressedSupplier, BooleanSupplier buttonYIsPressedSupplier, BooleanSupplier buttonBIsPressedSupplier, BooleanSupplier lbBooleanSupplier, BooleanSupplier rbBooleanSupplier){
+    public ElevatorCommand(ElevatorSubsytem elevatorSubsytem, BooleanSupplier buttonAIsPressedSupplier, BooleanSupplier buttonXIsPressedSupplier, BooleanSupplier buttonYIsPressedSupplier, BooleanSupplier buttonBIsPressedSupplier){
         this.elevatorSubsytem = elevatorSubsytem;
         this.buttonAIsPressedSupplier = buttonAIsPressedSupplier;
         this.buttonXIsPressedSupplier= buttonXIsPressedSupplier;
         this.buttonYIsPressedSupplier = buttonYIsPressedSupplier;
         this.buttonBIsPressedSupplier = buttonBIsPressedSupplier;
-        this.lbButtonSupplier = lbBooleanSupplier;
-        this.rbButtonSupplier = rbBooleanSupplier;
+   //     this.lbButtonSupplier = lbBooleanSupplier;
+  //      this.rbButtonSupplier = rbBooleanSupplier;
 
         addRequirements(elevatorSubsytem);
     }
@@ -37,52 +35,42 @@ public class ElevatorCommand extends Command{
         boolean buttonXIsPressed = buttonXIsPressedSupplier.getAsBoolean();
         boolean buttonYIsPressed = buttonYIsPressedSupplier.getAsBoolean();
         boolean buttonBIsPressed = buttonBIsPressedSupplier.getAsBoolean();
-        boolean lbButton = lbButtonSupplier.getAsBoolean();
-        boolean rbButton= rbButtonSupplier.getAsBoolean();
-        boolean isManualMode = true;
+     // boolean lbButton = lbButtonSupplier.getAsBoolean();
+      //boolean rbButton= rbButtonSupplier.getAsBoolean();
+      //boolean isManualMode = false;
         
-        if(isManualMode = false) {
-        if (buttonAIsPressed) {
+      
+    /*    if (buttonAIsPressed || buttonXIsPressed || buttonYIsPressed || buttonBIsPressed) {
             isManualMode = false;
-            elevatorSubsytem.moveToStartingPosition();
-        } else if (buttonXIsPressed) {
-            isManualMode = false;
-            elevatorSubsytem.moveToL1Position();
-        } else if (buttonYIsPressed) {
-            isManualMode = false;
-            elevatorSubsytem.moveToL2Position();
-        } else if(buttonBIsPressed){
-            isManualMode = false;
-            elevatorSubsytem.moveToL3Position();
-        } else {
+        }
+        if (lbButton || rbButton) {
             isManualMode = true;
-        }}
-    
-        if (isManualMode){
+        }
+
+        if (isManualMode) {
             if (lbButton) {
                 isManualMode = true;
                 elevatorSubsytem.elevatorManualMode(-0.4);
-            } else if (rbButton){
+            } else if (rbButton) {
                 isManualMode = true;
                 elevatorSubsytem.elevatorManualMode(0.4);
-            } else  if (buttonAIsPressed) {
-                isManualMode = false;
-            } else if (buttonXIsPressed) {
-                isManualMode = false;
-            } else if (buttonYIsPressed) {
-                isManualMode = false;
-            } else if(buttonBIsPressed){
-                isManualMode = false;
-            }else{
+            } else {
                 isManualMode = true;
-                elevatorSubsytem.elevatorManualMode(0);
+                elevatorSubsytem.stopElevator();
+            }
+    } else {*/ 
+
+            if (buttonAIsPressed) {
+                elevatorSubsytem.moveToStartingPosition(); // Replace with actual position
+            } else if (buttonXIsPressed) {
+                elevatorSubsytem.moveToL1Position(); // Replace with actual position
+            } else if (buttonYIsPressed) {
+                elevatorSubsytem.moveToL2Position(); // Replace with actual position
+            } else if (buttonBIsPressed) {
+                elevatorSubsytem.moveToL3Position();// Replace with actual position
             } 
-        }
-        
+        //}
     
-                
-                
-                
 
         
         
