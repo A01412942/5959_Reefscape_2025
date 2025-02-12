@@ -166,6 +166,7 @@ public class Constants {
       //ID's
       public static final int coralIntakeMotorID = 19;
       public static final int algaeIntakeMotorID = 20;
+      public static final int absoluteEncoderPort = 5;
     }
     public class Dashboard{
       public double intakePowerValue = SmartDashboard.getNumber("Intake Power", 0);
