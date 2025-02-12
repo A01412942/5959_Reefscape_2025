@@ -1,8 +1,12 @@
 package com.team5959.subsystems;
 
+import com.team5959.Constants;
 import com.team5959.Constants.IntakeConstants;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
@@ -21,6 +25,11 @@ public class IntakeSubsystem extends SubsystemBase {
     //initialize motor configuration
     private final SparkBaseConfig coralIntakeMotorConfig;
     private final SparkBaseConfig algaeIntakeMotorConfig;
+
+    //initialize encoder
+    DutyCycleEncoder pivotEncoder = new DutyCycleEncoder(IntakeConstants.absoluteEncoderPort);
+    double pivotePosition;
+    double pivotePositionGrados;
 
     public IntakeSubsystem (){
 
@@ -52,5 +61,11 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public void stopAlgaeIntake(){
         algaeIntakeMotor.set(0);
+    }
+
+    public void periodic (){
+        pivotePosition = pivotEncoder.get();
+        pivotePositionGrados = pivotePosition * 360;
+        SmartDashboard.putNumber("Pivote Position", pivotePositionGrados);
     }
 }
