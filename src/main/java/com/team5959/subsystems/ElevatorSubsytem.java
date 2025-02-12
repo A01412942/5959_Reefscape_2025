@@ -102,6 +102,7 @@ public class ElevatorSubsytem extends SubsystemBase{
         elevatorRight.set(0);
     }
 
+  
     @Override
     public void periodic() {
         // PID control mode
@@ -111,7 +112,7 @@ public class ElevatorSubsytem extends SubsystemBase{
         } else{
             isManualMode = true;
         }
-         // Set the motor to the calculated PID output
+    // Set the motor to the calculated PID output
     }
 
     // Method to check if the motor has reached the target position

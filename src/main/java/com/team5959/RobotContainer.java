@@ -11,17 +11,16 @@ import com.team5959.Constants.ControllerConstants;
 import com.team5959.subsystems.SwerveChassis;
 import com.team5959.subsystems.ElevatorSubsytem;
 import com.team5959.subsystems.IntakeSubsystem;
-import com.team5959.subsystems.ManualElevatorSubsystem;
 import com.team5959.subsystems.ArmIntakeSubsystem;
 import com.team5959.commands.SwerveDrive;
 import com.team5959.commands.ArmIntakeCommand;
 import com.team5959.commands.IntakeCommand;
-import com.team5959.commands.ManualElevatorCommand;
 import com.team5959.commands.ElevatorCommand;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PS4Controller;
 
@@ -31,7 +30,6 @@ public class RobotContainer {
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   private final ArmIntakeSubsystem armIntakeSubsystem = new ArmIntakeSubsystem();
   private final ElevatorSubsytem elevatorSubsytem = new ElevatorSubsytem();
-  private final ManualElevatorSubsystem manualElevatorSubsystem = new ManualElevatorSubsystem();
 
   //controllers
   private final PS4Controller control = new PS4Controller(ControllerConstants.kDriverControllerPort);
@@ -39,17 +37,17 @@ public class RobotContainer {
 
   //drive buttons
   private final JoystickButton resetNavxButton = new JoystickButton(control, 10);
+  
 
   //AXIS
-  
+
   public RobotContainer() {
 
     swerveChassis.setDefaultCommand(new SwerveDrive(swerveChassis, () -> -control.getLeftY(), () -> -control.getLeftX(), () -> control.getRightX(), true));
     intakeSubsystem.setDefaultCommand(new IntakeCommand(intakeSubsystem, ()-> controlOp.getRawAxis(2), ()-> controlOp.getRawAxis(3)));
-    elevatorSubsytem.setDefaultCommand(new ElevatorCommand(elevatorSubsytem, ()-> controlOp.getRawButtonPressed(1), ()-> controlOp.getRawButtonPressed(3), ()-> controlOp.getRawButtonPressed(4), ()-> controlOp.getRawButtonPressed(2)));
-    manualElevatorSubsystem.setDefaultCommand(new ManualElevatorCommand(elevatorSubsytem, ()-> controlOp.getRawButton(5), ()-> controlOp.getRawButton(6)));
+    elevatorSubsytem.setDefaultCommand(new ElevatorCommand(elevatorSubsytem, ()-> controlOp.getRawButton(1), ()-> controlOp.getRawButton(3), ()-> controlOp.getRawButton(4), ()-> controlOp.getRawButton(2),()-> controlOp.getRawButton(5), ()-> controlOp.getRawButton(6)));
     armIntakeSubsystem.setDefaultCommand(new ArmIntakeCommand(armIntakeSubsystem, ()-> controlOp.getRawButtonPressed(8)));
-    
+
     configureBindings();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
   }
 

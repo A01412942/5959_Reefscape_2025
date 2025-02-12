@@ -22,6 +22,7 @@ public class SwerveDrive extends Command { //extends is used to indicate that a 
         this.ySupplier = ySupplier;
         this.zSupplier = zSupplier;
         this.fieldOriented = fieldOriented;
+        
         addRequirements(swerveChassis);
     }
 

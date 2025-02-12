@@ -11,17 +11,17 @@ public class ElevatorCommand extends Command{
     private final ElevatorSubsytem elevatorSubsytem;
 
     private final BooleanSupplier buttonAIsPressedSupplier, buttonXIsPressedSupplier, buttonYIsPressedSupplier, buttonBIsPressedSupplier;
-
+    private final BooleanSupplier lbButtonSupplier, rbButtonSupplier;
 
     //CONSTRUCTOR
-    public ElevatorCommand(ElevatorSubsytem elevatorSubsytem, BooleanSupplier buttonAIsPressedSupplier, BooleanSupplier buttonXIsPressedSupplier, BooleanSupplier buttonYIsPressedSupplier, BooleanSupplier buttonBIsPressedSupplier){
+    public ElevatorCommand(ElevatorSubsytem elevatorSubsytem, BooleanSupplier buttonAIsPressedSupplier, BooleanSupplier buttonXIsPressedSupplier, BooleanSupplier buttonYIsPressedSupplier, BooleanSupplier buttonBIsPressedSupplier, BooleanSupplier lbBooleanSupplier, BooleanSupplier rbBooleanSupplier){
         this.elevatorSubsytem = elevatorSubsytem;
-        this.buttonAIsPressedSupplier = buttonAIsPressedSupplier;
-        this.buttonXIsPressedSupplier= buttonXIsPressedSupplier;
+       this.buttonAIsPressedSupplier = buttonAIsPressedSupplier;
+      this.buttonXIsPressedSupplier= buttonXIsPressedSupplier;
         this.buttonYIsPressedSupplier = buttonYIsPressedSupplier;
         this.buttonBIsPressedSupplier = buttonBIsPressedSupplier;
-   //     this.lbButtonSupplier = lbBooleanSupplier;
-  //      this.rbButtonSupplier = rbBooleanSupplier;
+      this.lbButtonSupplier = lbBooleanSupplier;
+      this.rbButtonSupplier = rbBooleanSupplier;
 
         addRequirements(elevatorSubsytem);
     }
@@ -29,37 +29,32 @@ public class ElevatorCommand extends Command{
     @Override
     public void execute(){
         // ALTERING VALUES
-
+    
         //Joystick buttons -> boolean
         boolean buttonAIsPressed = buttonAIsPressedSupplier.getAsBoolean();
         boolean buttonXIsPressed = buttonXIsPressedSupplier.getAsBoolean();
         boolean buttonYIsPressed = buttonYIsPressedSupplier.getAsBoolean();
         boolean buttonBIsPressed = buttonBIsPressedSupplier.getAsBoolean();
-     // boolean lbButton = lbButtonSupplier.getAsBoolean();
-      //boolean rbButton= rbButtonSupplier.getAsBoolean();
-      //boolean isManualMode = false;
-        
-      
-    /*    if (buttonAIsPressed || buttonXIsPressed || buttonYIsPressed || buttonBIsPressed) {
+        boolean lbButton = lbButtonSupplier.getAsBoolean();
+        boolean rbButton= rbButtonSupplier.getAsBoolean();
+        boolean isManualMode = false;
+     
+        if (buttonAIsPressed || buttonXIsPressed || buttonYIsPressed || buttonBIsPressed) {
             isManualMode = false;
-        }
-        if (lbButton || rbButton) {
+            System.out.println("Hola\n\n\n\n\n\n");
+        } else {
             isManualMode = true;
         }
 
         if (isManualMode) {
             if (lbButton) {
-                isManualMode = true;
                 elevatorSubsytem.elevatorManualMode(-0.4);
             } else if (rbButton) {
-                isManualMode = true;
                 elevatorSubsytem.elevatorManualMode(0.4);
             } else {
-                isManualMode = true;
                 elevatorSubsytem.stopElevator();
             }
-    } else {*/ 
-
+        } else {
             if (buttonAIsPressed) {
                 elevatorSubsytem.moveToStartingPosition(); // Replace with actual position
             } else if (buttonXIsPressed) {
@@ -68,11 +63,9 @@ public class ElevatorCommand extends Command{
                 elevatorSubsytem.moveToL2Position(); // Replace with actual position
             } else if (buttonBIsPressed) {
                 elevatorSubsytem.moveToL3Position();// Replace with actual position
-            } 
-        //}
-    
+            }
 
-        
+        }
         
     } 
     // Returns true when the command should end.

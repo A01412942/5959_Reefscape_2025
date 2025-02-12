@@ -17,6 +17,7 @@ public class IntakeCommand extends Command{
         this.intakeSubsystem = intakeSubsystem;
         this.ltAxisSupplier = ltAxisSupplier;
         this.rtAxisSupplier = rtAxisSupplier;
+        
         addRequirements(intakeSubsystem);
     }
 
