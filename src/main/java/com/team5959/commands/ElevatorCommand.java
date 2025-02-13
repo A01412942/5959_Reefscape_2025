@@ -16,12 +16,12 @@ public class ElevatorCommand extends Command{
     //CONSTRUCTOR
     public ElevatorCommand(ElevatorSubsytem elevatorSubsytem, BooleanSupplier buttonAIsPressedSupplier, BooleanSupplier buttonXIsPressedSupplier, BooleanSupplier buttonYIsPressedSupplier, BooleanSupplier buttonBIsPressedSupplier, BooleanSupplier lbBooleanSupplier, BooleanSupplier rbBooleanSupplier){
         this.elevatorSubsytem = elevatorSubsytem;
-       this.buttonAIsPressedSupplier = buttonAIsPressedSupplier;
-      this.buttonXIsPressedSupplier= buttonXIsPressedSupplier;
+        this.buttonAIsPressedSupplier = buttonAIsPressedSupplier;
+        this.buttonXIsPressedSupplier= buttonXIsPressedSupplier;
         this.buttonYIsPressedSupplier = buttonYIsPressedSupplier;
         this.buttonBIsPressedSupplier = buttonBIsPressedSupplier;
-      this.lbButtonSupplier = lbBooleanSupplier;
-      this.rbButtonSupplier = rbBooleanSupplier;
+        this.lbButtonSupplier = lbBooleanSupplier;
+        this.rbButtonSupplier = rbBooleanSupplier;
 
         addRequirements(elevatorSubsytem);
     }
@@ -41,7 +41,6 @@ public class ElevatorCommand extends Command{
      
         if (buttonAIsPressed || buttonXIsPressed || buttonYIsPressed || buttonBIsPressed) {
             isManualMode = false;
-            System.out.println("Hola\n\n\n\n\n\n");
         } else {
             isManualMode = true;
         }
