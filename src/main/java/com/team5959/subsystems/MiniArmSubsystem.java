@@ -58,7 +58,7 @@ public class MiniArmSubsystem extends SubsystemBase{
    
     @Override
     public void periodic() {  
-        SmartDashboard.putNumber("Pivote Position", miniArmPositionDegrees);
+        SmartDashboard.putNumber("Mini Arm Position", miniArmPositionDegrees);
 
         // Calculate PID output
         double pidOutput = miniArmPID.calculate(miniArmPositionDegrees, miniArmTargetPosition);
