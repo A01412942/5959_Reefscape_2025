@@ -26,7 +26,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 
 //   20 · coralIntakeMotorRight
 //   21 · coralIntakeMotorLeft
-
+   
 //   22 · miniArmMotor
 //  =================
 public class Constants {
@@ -185,6 +185,7 @@ public class Constants {
     public static class MiniArmConstants{
       //ID's
       public static final int miniArmMotorID = 22;
+      public static final int absoluteEncoderPort = 6; //FIXME change to correct port
       //PID VALUES
       public static final double KP_MINI_ARM = 0.035;
       public static final double KI_MINI_ARM = 0.000; //FIXME adjust pid values for mini arm

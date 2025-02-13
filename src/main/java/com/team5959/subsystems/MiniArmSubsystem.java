@@ -1,7 +1,6 @@
 package com.team5959.subsystems;
 
-import com.team5959.Constants;
-import com.team5959.Constants.ArmConstants;
+import com.team5959.Constants.MiniArmConstants;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.math.controller.PIDController;
@@ -10,7 +9,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.RelativeEncoder;
 
 public class MiniArmSubsystem extends SubsystemBase{
     //INITIALIZATION
@@ -22,60 +20,56 @@ public class MiniArmSubsystem extends SubsystemBase{
     private final DutyCycleEncoder miniArmAbsoluteEncoder;
     private final double miniArmPosition;
     private final double miniArmPositionDegrees;
+    
 
     //initialize PID controller
     private final PIDController miniArmPID;
 
     //Target position
-    private double armTargetPosition;
-
-    //Encoder Absolute Position
-    DutyCycleEncoder armAbsoluteEncoder;
-    double armPosition;
-    double armPositionDegrees;
+    private double miniArmTargetPosition;
 
     public MiniArmSubsystem(){
         //instatiate motors, config and encoder
-        armMotor = new SparkMax(ArmConstants.armMotorID, MotorType.kBrushless);
+        miniArmMotor = new SparkMax(MiniArmConstants.miniArmMotorID, MotorType.kBrushless);
 
-        armEncoder = armMotor.getEncoder();
-        armEncoder.setPosition(ArmConstants.armIntakeInStartingPosition);
-
-        armPID = new PIDController(ArmConstants.KP_ARM, ArmConstants.KI_ARM, ArmConstants.KD_ARM);
-
-        //Encoder Absolute
-        armAbsoluteEncoder = new DutyCycleEncoder(ArmConstants.absoluteEncoderPort);
+        miniArmPID = new PIDController(MiniArmConstants.KP_MINI_ARM, MiniArmConstants.KI_MINI_ARM, MiniArmConstants.KD_MINI_ARM);
+        
+        //Absolute Encoder
+        miniArmAbsoluteEncoder = new DutyCycleEncoder(MiniArmConstants.absoluteEncoderPort);
+        miniArmPosition = miniArmAbsoluteEncoder.get();
+        miniArmPositionDegrees = miniArmPosition * 360;
     }
 
     // Method to set a target position
-    public void setArmTargetPosition(double position) {
-        armTargetPosition = position;
+    public void setMiniArmTargetPosition(double position) {
+        miniArmTargetPosition = position;
     }
 
-    public void moveToInPosition(){
-        setArmTargetPosition(ArmConstants.armIntakeInStartingPosition);
+    public void moveToStartingPosition(){
+        setMiniArmTargetPosition(MiniArmConstants.miniArmStartingPosition);
     }
 
-    public void moveToOutPosition(){
-        setArmTargetPosition(ArmConstants.armIntakeOutPosition);
+    public void moveToDropAlgaePosition(){
+        setMiniArmTargetPosition(MiniArmConstants.miniArmDropAlgaePosition);
     }
-    
+    public void moveToDownPosition(){
+        setMiniArmTargetPosition(MiniArmConstants.miniArmDownPosition);
+    }
+   
     @Override
-    public void periodic() {
+    public void periodic() {  
+        SmartDashboard.putNumber("Pivote Position", miniArmPositionDegrees);
+
         // Calculate PID output
-        double pidOutput = armPID.calculate(armEncoder.getPosition(), armTargetPosition);
+        double pidOutput = miniArmPID.calculate(miniArmPositionDegrees, miniArmTargetPosition);
         
         // Set the motor to the calculated PID output
-        armMotor.set(pidOutput);
+        miniArmMotor.set(pidOutput);
         
-        //Abosulte Encoder
-        armPosition = armAbsoluteEncoder.get();
-        armPositionDegrees = armPosition * 360;
-        SmartDashboard.putNumber("Pivote Position", armPositionDegrees);
     }
 
     // Method to check if the motor has reached the target position
     public boolean atTargetPosition() {
-        return armPID.atSetpoint();
+        return miniArmPID.atSetpoint();
     }
 }
