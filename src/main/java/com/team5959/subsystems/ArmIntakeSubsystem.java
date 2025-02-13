@@ -2,7 +2,6 @@ package com.team5959.subsystems;
 
 import com.team5959.Constants;
 import com.team5959.Constants.ArmConstants;
-import com.team5959.Constants.IntakeConstants;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.math.controller.PIDController;
@@ -43,7 +42,7 @@ public class ArmIntakeSubsystem extends SubsystemBase{
         armPID = new PIDController(ArmConstants.KP_ARM, ArmConstants.KI_ARM, ArmConstants.KD_ARM);
 
         //Encoder Absolute
-        armAbsoluteEncoder = new DutyCycleEncoder(IntakeConstants.absoluteEncoderPort);
+        armAbsoluteEncoder = new DutyCycleEncoder(ArmConstants.absoluteEncoderPort);
     }
 
     // Method to set a target position

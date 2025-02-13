@@ -1,12 +1,8 @@
 package com.team5959.subsystems;
 
-import com.team5959.Constants;
 import com.team5959.Constants.IntakeConstants;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.DutyCycleEncoder;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
@@ -19,31 +15,41 @@ public class IntakeSubsystem extends SubsystemBase {
     //INIZIALIZATION
 
     //initialize motors
-    private final SparkMax coralIntakeMotor;
+    private final SparkMax coralIntakeMotorRight;
+    private final SparkMax coralIntakeMotorLeft;
+
     private final SparkMax algaeIntakeMotor;
 
     //initialize motor configuration
-    private final SparkBaseConfig coralIntakeMotorConfig;
+    private final SparkBaseConfig coralIntakeMotorRightConfig;
+    private final SparkBaseConfig coralIntakeMotorLeftConfig;
     private final SparkBaseConfig algaeIntakeMotorConfig;
 
     public IntakeSubsystem (){
 
         //instatiate motors and config
-        coralIntakeMotor = new SparkMax(IntakeConstants.coralIntakeMotorID, MotorType.kBrushless);
+        coralIntakeMotorRight = new SparkMax(IntakeConstants.coralIntakeMotorRightID, MotorType.kBrushless);
+        coralIntakeMotorLeft = new SparkMax(IntakeConstants.coralIntakeMotorLeftID, MotorType.kBrushless);
+
         algaeIntakeMotor = new SparkMax(IntakeConstants.algaeIntakeMotorID, MotorType.kBrushless);
 
-        coralIntakeMotorConfig = new SparkMaxConfig();
+        coralIntakeMotorRightConfig = new SparkMaxConfig();
+        coralIntakeMotorLeftConfig = new SparkMaxConfig();
         algaeIntakeMotorConfig = new SparkMaxConfig();
 
-        coralIntakeMotorConfig.idleMode(IdleMode.kBrake);
+        coralIntakeMotorRightConfig.idleMode(IdleMode.kBrake);
+        coralIntakeMotorLeftConfig.idleMode(IdleMode.kBrake);
+        coralIntakeMotorLeftConfig.follow(coralIntakeMotorRight, IntakeConstants.coralIntakeMotorLeftInverted);
+        coralIntakeMotorRightConfig.inverted(IntakeConstants.coralIntakeMotorRightInverted);
         algaeIntakeMotorConfig.idleMode(IdleMode.kBrake);
 
-        coralIntakeMotor.configure(coralIntakeMotorConfig, null,null);
+        coralIntakeMotorRight.configure(coralIntakeMotorRightConfig, null,null);
+        coralIntakeMotorLeft.configure(coralIntakeMotorLeftConfig, null,null);
         algaeIntakeMotor.configure(algaeIntakeMotorConfig, null,null);
     }
 
     public void runCoralIntake(double speed){
-        coralIntakeMotor.set(speed);
+        coralIntakeMotorRight.set(speed);
     }
 
     public void runAlgaeIntake(double speed){
@@ -51,7 +57,7 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void stopCoralIntake(){
-        coralIntakeMotor.set(0);
+        coralIntakeMotorRight.set(0);
     }
 
     public void stopAlgaeIntake(){

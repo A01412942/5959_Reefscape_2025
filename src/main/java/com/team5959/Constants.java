@@ -20,6 +20,12 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 
 //   16 · elevatorRight
 //   17 · elevatorLeft
+
+//   18 · armIntakeMotor
+//   19 · algaeIntakeMotor
+
+//   20 · coralIntakeMotorRight
+//   21 · coralIntakeMotorLeft
 //  =================
 public class Constants {
     public static class ControllerConstants{
@@ -150,7 +156,7 @@ public class Constants {
     public static class ArmConstants{
       //ID's
       public static final int armMotorID = 18;
-
+      public static final int absoluteEncoderPort = 5;
       //PID VALUES
       public static final double KP_ARM = 0.035;
       public static final double KI_ARM = 0.000; //FIXME adjust pid values for arm
@@ -164,9 +170,14 @@ public class Constants {
     //INTAKE CONSTANTS
     public static class IntakeConstants{ 
       //ID's
-      public static final int coralIntakeMotorID = 19;
-      public static final int algaeIntakeMotorID = 20;
-      public static final int absoluteEncoderPort = 5;
+      public static final int coralIntakeMotorRightID = 20;
+      public static final int coralIntakeMotorLeftID = 21;
+      public static final int algaeIntakeMotorID = 19;
+      //INVERTED
+      public static final boolean coralIntakeMotorRightInverted = false;
+      public static final boolean coralIntakeMotorLeftInverted = true;
+            
+      
     }
     public class Dashboard{
       public double intakePowerValue = SmartDashboard.getNumber("Intake Power", 0);
