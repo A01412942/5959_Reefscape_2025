@@ -18,16 +18,16 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 //   8 · rearLeftRotation
 //   9 · rearLeftDrive
 
-//   16 · elevatorRight
+//   16 · elevatorRight  70:1
 //   17 · elevatorLeft
 
-//   18 · armIntakeMotor
-//   19 · algaeIntakeMotor
+//   18 · armIntakeMotor  90:1
+//   19 · algaeIntakeMotor 30:1
 
-//   20 · coralIntakeMotorRight
-//   21 · coralIntakeMotorLeft
+//   20 · coralIntakeMotorRight 25:1
+//   21 · coralIntakeMotorLeft 25:1
    
-//   22 · miniArmMotor
+//   22 · miniArmMotor 50:1
 //  =================
 public class Constants {
     public static class ControllerConstants{
