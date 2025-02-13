@@ -26,11 +26,6 @@ public class IntakeSubsystem extends SubsystemBase {
     private final SparkBaseConfig coralIntakeMotorConfig;
     private final SparkBaseConfig algaeIntakeMotorConfig;
 
-    //initialize encoder
-    DutyCycleEncoder pivotEncoder = new DutyCycleEncoder(IntakeConstants.absoluteEncoderPort);
-    double pivotePosition;
-    double pivotePositionGrados;
-
     public IntakeSubsystem (){
 
         //instatiate motors and config
@@ -61,11 +56,5 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public void stopAlgaeIntake(){
         algaeIntakeMotor.set(0);
-    }
-
-    public void periodic (){
-        pivotePosition = pivotEncoder.get();
-        pivotePositionGrados = pivotePosition * 360;
-        SmartDashboard.putNumber("Pivote Position", pivotePositionGrados);
     }
 }
