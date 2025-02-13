@@ -26,6 +26,8 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 
 //   20 · coralIntakeMotorRight
 //   21 · coralIntakeMotorLeft
+
+//   22 · miniArmMotor
 //  =================
 public class Constants {
     public static class ControllerConstants{
@@ -179,7 +181,18 @@ public class Constants {
             
       
     }
-    public class Dashboard{
-      public double intakePowerValue = SmartDashboard.getNumber("Intake Power", 0);
+    
+    public static class MiniArmConstants{
+      //ID's
+      public static final int miniArmMotorID = 22;
+      //PID VALUES
+      public static final double KP_MINI_ARM = 0.035;
+      public static final double KI_MINI_ARM = 0.000; //FIXME adjust pid values for mini arm
+      public static final double KD_MINI_ARM = 0.0004;
+      //POSITION VALUES (in encoder units)
+      public static final double miniArmStartingPosition = 0.00;
+      public static final double miniArmDropAlgaePosition = 20.00;
+      public static final double miniArmDownPosition = 40.00;
+
     }
 }
