@@ -32,11 +32,11 @@ public class IntakeCommand extends Command{
 
         //if left trigger is pressed, run coral intake in reverse if right trigger is pressed, run coral intake forward, else stop Coral intake
         if (ltAxis > 0.5) {
-            intakeSubsystem.runCoralIntake(-0.6);
+            intakeSubsystem.runAlgaeIntake(0.7); //changed it to algae
         } else if (rtAxis > 0.5) {
-            intakeSubsystem.runCoralIntake(0.6);
+            intakeSubsystem.runAlgaeIntake(-0.7);
         } else {
-            intakeSubsystem.stopCoralIntake();
+            intakeSubsystem.stopAlgaeIntake();
         }
     }
       

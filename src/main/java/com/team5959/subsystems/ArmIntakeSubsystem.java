@@ -20,7 +20,7 @@ public class ArmIntakeSubsystem extends SubsystemBase{
     private final SparkMax armMotor;
 
     //initialize encoder
- //   private final RelativeEncoder armEncoder;
+   // private final RelativeEncoder armEncoder;
 
     //initialize PID controller
     private final PIDController armPID;
@@ -46,18 +46,20 @@ public class ArmIntakeSubsystem extends SubsystemBase{
         armPID = new PIDController(ArmConstants.KP_ARM, ArmConstants.KI_ARM, ArmConstants.KD_ARM);
 
         //Encoder Absolute
-        //armAbsoluteEncoder = new DutyCycleEncoder(ArmConstants.absoluteEncoderPort);
+        armAbsoluteEncoder = new DutyCycleEncoder(ArmConstants.absoluteEncoderPort);
 
         positionSpark = armMotor.getEncoder();
-        SmartDashboard.putNumber("Pivote Position", armPositionDegrees);
+
+        
+
     }
-/*
-    public void actualPosition(){
+
+     public void actualPosition(){
         armPosition = armAbsoluteEncoder.get();
         armPositionMultiplication = armPosition * 360;
         armPositionDegrees = (int)armPositionMultiplication;
-    }
-*/
+    } 
+
     // Method to set a target position
     public void setArmTargetPosition(double position) {
         armTargetPosition = position;
@@ -73,11 +75,12 @@ public class ArmIntakeSubsystem extends SubsystemBase{
     
     @Override
     public void periodic() {
-        //actualPosition();
+        actualPosition();
+ 
         SmartDashboard.putNumber("Arm Position", armPositionDegrees);
 
         // Calculate PID output
-        double pidOutput = armPID.calculate(positionSpark.getPosition(), armTargetPosition);
+        double pidOutput = armPID.calculate(armPositionDegrees, armTargetPosition);
         
         // Set the motor to the calculated PID output
         armMotor.set(pidOutput);

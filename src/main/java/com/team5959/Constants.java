@@ -165,8 +165,8 @@ public class Constants {
       public static final double KD_ARM = 0.0004;
 
       //POSITION VALUES (in encoder units)
-      public static final int armIntakeInStartingPosition = 67;
-      public static final int armIntakeOutPosition = 160;
+      public static final int armIntakeInStartingPosition = 0;
+      public static final int armIntakeOutPosition = 20;
     }
 
     //INTAKE CONSTANTS

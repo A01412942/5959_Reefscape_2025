@@ -13,7 +13,8 @@ public class ArmIntakeCommand extends Command{
 
     private BooleanSupplier armButtonIsPressedSupplier;
 
-    private int setSwitchArm = 0;
+    boolean isArmOut;
+
     //CONSTRUCTOR
     public ArmIntakeCommand(ArmIntakeSubsystem armSubsystem, BooleanSupplier armButtonIsPressedSupplier){
         this.armIntakeSubsystem = armSubsystem;
@@ -30,12 +31,11 @@ public class ArmIntakeCommand extends Command{
       boolean armButtonIsPressed = armButtonIsPressedSupplier.getAsBoolean();
 
       if (armButtonIsPressed){
-        if (setSwitchArm == 0){
-          setSwitchArm = 1; 
+        if (!isArmOut){
           armIntakeSubsystem.moveToInPosition();
-        }
-        else if (setSwitchArm == 1){
-        setSwitchArm = 0;
+          isArmOut = true; 
+        } else {
+        isArmOut = false;
         armIntakeSubsystem.moveToOutPosition();
         }
       }
