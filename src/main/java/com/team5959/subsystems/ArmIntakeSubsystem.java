@@ -8,6 +8,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 //import com.revrobotics.RelativeEncoder;
@@ -25,12 +26,14 @@ public class ArmIntakeSubsystem extends SubsystemBase{
     private final PIDController armPID;
 
     //Target position
-    private double armTargetPosition;
+    double armTargetPosition;
 
     //Encoder Absolute Position
-    private final DutyCycleEncoder armAbsoluteEncoder;
-    private final double armPosition;
-    private final double armPositionDegrees;
+    DutyCycleEncoder armAbsoluteEncoder;
+    double armPosition;
+    double armPositionMultiplication;
+    int armPositionDegrees;
+    RelativeEncoder positionSpark;
 
 
     public ArmIntakeSubsystem(){
@@ -43,13 +46,18 @@ public class ArmIntakeSubsystem extends SubsystemBase{
         armPID = new PIDController(ArmConstants.KP_ARM, ArmConstants.KI_ARM, ArmConstants.KD_ARM);
 
         //Encoder Absolute
-        armAbsoluteEncoder = new DutyCycleEncoder(ArmConstants.absoluteEncoderPort);
+        //armAbsoluteEncoder = new DutyCycleEncoder(ArmConstants.absoluteEncoderPort);
 
-        armPosition = armAbsoluteEncoder.get();
-        armPositionDegrees = armPosition * 360;
+        positionSpark = armMotor.getEncoder();
         SmartDashboard.putNumber("Pivote Position", armPositionDegrees);
     }
-
+/*
+    public void actualPosition(){
+        armPosition = armAbsoluteEncoder.get();
+        armPositionMultiplication = armPosition * 360;
+        armPositionDegrees = (int)armPositionMultiplication;
+    }
+*/
     // Method to set a target position
     public void setArmTargetPosition(double position) {
         armTargetPosition = position;
@@ -65,9 +73,11 @@ public class ArmIntakeSubsystem extends SubsystemBase{
     
     @Override
     public void periodic() {
+        //actualPosition();
         SmartDashboard.putNumber("Arm Position", armPositionDegrees);
+
         // Calculate PID output
-        double pidOutput = armPID.calculate(armPositionDegrees, armTargetPosition);
+        double pidOutput = armPID.calculate(positionSpark.getPosition(), armTargetPosition);
         
         // Set the motor to the calculated PID output
         armMotor.set(pidOutput);
