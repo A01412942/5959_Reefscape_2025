@@ -26,7 +26,7 @@ public class ArmIntakeSubsystem extends SubsystemBase{
     private final PIDController armPID;
 
     //Target position
-    double armTargetPosition;
+    double armTargetPosition = 70;
 
     //Encoder Absolute Position
     DutyCycleEncoder armAbsoluteEncoder;
@@ -49,8 +49,6 @@ public class ArmIntakeSubsystem extends SubsystemBase{
         armAbsoluteEncoder = new DutyCycleEncoder(ArmConstants.absoluteEncoderPort);
 
         positionSpark = armMotor.getEncoder();
-
-        
 
     }
 

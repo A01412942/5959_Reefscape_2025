@@ -160,13 +160,13 @@ public class Constants {
       public static final int armMotorID = 18;
       public static final int absoluteEncoderPort = 3;
       //PID VALUES
-      public static final double KP_ARM = 0.035;
+      public static final double KP_ARM = 0.01;
       public static final double KI_ARM = 0.000; //FIXME adjust pid values for arm
       public static final double KD_ARM = 0.0004;
 
       //POSITION VALUES (in encoder units)
-      public static final int armIntakeInStartingPosition = 0;
-      public static final int armIntakeOutPosition = 20;
+      public static final int armIntakeInStartingPosition = 70;
+      public static final int armIntakeOutPosition = 107;
     }
 
     //INTAKE CONSTANTS
