@@ -5,6 +5,7 @@ import com.team5959.Constants.ElevatorConstants;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
@@ -105,6 +106,7 @@ public class ElevatorSubsytem extends SubsystemBase{
   
     @Override
     public void periodic() {
+        SmartDashboard.putNumber("Elevator Position", elevatorEncoder.getPosition());
         // PID control mode
         if (!isManualMode) {
             double pidOutput = elevatorPID.calculate(elevatorEncoder.getPosition(), targetPosition);
