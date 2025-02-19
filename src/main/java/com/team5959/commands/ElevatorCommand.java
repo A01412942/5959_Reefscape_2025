@@ -47,9 +47,9 @@ public class ElevatorCommand extends Command{
 
         if (isManualMode) {
             if (lbButton) {
-                elevatorSubsytem.elevatorManualMode(-0.4);
-            } else if (rbButton) {
                 elevatorSubsytem.elevatorManualMode(0.4);
+            } else if (rbButton) {
+                elevatorSubsytem.elevatorManualMode(-0.4);
             } else {
                 elevatorSubsytem.stopElevator();
             }
