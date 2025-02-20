@@ -17,16 +17,17 @@ public class MiniArmSubsystem extends SubsystemBase{
     private final SparkMax miniArmMotor;
 
     //Encoder Absolute Position
-    private final DutyCycleEncoder miniArmAbsoluteEncoder;
-    private final double miniArmPosition;
-    private final double miniArmPositionDegrees;
-    
+    DutyCycleEncoder miniArmAbsoluteEncoder;
+    double miniArmPosition;
+    double miniArmPositionMultiplication;
+    int miniArmPositionDegrees;
+
 
     //initialize PID controller
     private final PIDController miniArmPID;
 
     //Target position
-    private double miniArmTargetPosition;
+    private double miniArmTargetPosition = 145;
 
     public MiniArmSubsystem(){
         //instatiate motors, config and encoder
@@ -36,10 +37,13 @@ public class MiniArmSubsystem extends SubsystemBase{
         
         //Absolute Encoder
         miniArmAbsoluteEncoder = new DutyCycleEncoder(MiniArmConstants.absoluteEncoderPort);
-        miniArmPosition = miniArmAbsoluteEncoder.get();
-        miniArmPositionDegrees = miniArmPosition * 360;
     }
 
+    public void actualPosition(){
+        miniArmPosition = miniArmAbsoluteEncoder.get();
+        miniArmPositionMultiplication = miniArmPosition * 360;
+        miniArmPositionDegrees = (int)miniArmPositionMultiplication;
+    }
     // Method to set a target position
     public void setMiniArmTargetPosition(double position) {
         miniArmTargetPosition = position;
@@ -58,6 +62,7 @@ public class MiniArmSubsystem extends SubsystemBase{
    
     @Override
     public void periodic() {  
+        actualPosition();
         SmartDashboard.putNumber("Mini Arm Position", miniArmPositionDegrees);
 
         // Calculate PID output

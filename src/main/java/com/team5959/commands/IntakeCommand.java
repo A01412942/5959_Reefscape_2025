@@ -10,13 +10,15 @@ public class IntakeCommand extends Command{
 
     //INITIALIZATION
     private final IntakeSubsystem intakeSubsystem;
-    private final DoubleSupplier  ltAxisSupplier, rtAxisSupplier;
+    private final DoubleSupplier  ltCoralAxisSupplier, rtCoralAxisSupplier, l2AlgaeAxisSupplier, r2AlgaeAxisSupplier;
 
     //CONSTRUCTOR
-    public IntakeCommand(IntakeSubsystem intakeSubsystem, DoubleSupplier ltAxisSupplier, DoubleSupplier rtAxisSupplier){
+    public IntakeCommand(IntakeSubsystem intakeSubsystem, DoubleSupplier ltCoralAxisSupplier, DoubleSupplier rtCoralAxisSupplier,DoubleSupplier l2AlgaeAxisSupplier, DoubleSupplier r2AlgaeAxisSupplier){
         this.intakeSubsystem = intakeSubsystem;
-        this.ltAxisSupplier = ltAxisSupplier;
-        this.rtAxisSupplier = rtAxisSupplier;
+        this.ltCoralAxisSupplier = ltCoralAxisSupplier;
+        this.rtCoralAxisSupplier = rtCoralAxisSupplier;
+        this.l2AlgaeAxisSupplier = l2AlgaeAxisSupplier;
+        this.r2AlgaeAxisSupplier = r2AlgaeAxisSupplier;
         
         addRequirements(intakeSubsystem);
     }
@@ -27,17 +29,26 @@ public class IntakeCommand extends Command{
         // ALTERING VALUES
 
         //Joystick Axis -> Double
-        double ltAxis = ltAxisSupplier.getAsDouble();
-        double rtAxis = rtAxisSupplier.getAsDouble();
+        double ltCoralAxis = ltCoralAxisSupplier.getAsDouble();
+        double rtCoralAxis = rtCoralAxisSupplier.getAsDouble();
+        double l2AlgaeAxis = l2AlgaeAxisSupplier.getAsDouble();
+        double r2AlgaeAxis = r2AlgaeAxisSupplier.getAsDouble();
 
-        //if left trigger is pressed, run coral intake in reverse if right trigger is pressed, run coral intake forward, else stop Coral intake
-        if (ltAxis > 0.5) {
-            intakeSubsystem.runAlgaeIntake(0.7); //changed it to algae
-        } else if (rtAxis > 0.5) {
-            intakeSubsystem.runAlgaeIntake(-0.7);
+        if (l2AlgaeAxis > 0.5) {
+            intakeSubsystem.runAlgaeIntake(0.7); //Coral goes into the robot
+        } else if (r2AlgaeAxis > 0.5) {
+            intakeSubsystem.runAlgaeIntake(-0.7); //Coral goes out of the robot
         } else {
             intakeSubsystem.stopAlgaeIntake();
         }
+
+        if (ltCoralAxis > 0.5) {
+            intakeSubsystem.runCoralIntake(0.75);
+         } else if (rtCoralAxis > 0.5) {
+            intakeSubsystem.runCoralIntake(-0.75);
+         } else {
+            intakeSubsystem.stopCoralIntake();
+         }
     }
       
     @Override

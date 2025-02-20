@@ -149,9 +149,9 @@ public class Constants {
       public static final double KD_ELEVATOR = 0.0004;
       //POSITION VALUES (in encoder units)
       public static final double elevatorStartingPosition = 0.00;
-      public static final double elevatorL1Position = 20.00;
-      public static final double elevatorL2Position = 40.00;
-      public static final double elevatorL3Position = 60.00;
+      public static final double elevatorL1Position = -20.00;
+      public static final double elevatorL2Position = -40.00; //FIXME put actual positions,, remember to use negatives
+      public static final double elevatorL3Position = -60.00;
     }
 
     //ARM CONSTANTS
@@ -160,13 +160,13 @@ public class Constants {
       public static final int armMotorID = 18;
       public static final int absoluteEncoderPort = 3;
       //PID VALUES
-      public static final double KP_ARM = 0.01;
-      public static final double KI_ARM = 0.000; //FIXME adjust pid values for arm
-      public static final double KD_ARM = 0.0004;
+      public static final double KP_ARM = 0.009;
+      public static final double KI_ARM = 0.00; //FIXME adjust pid values for arm
+      public static final double KD_ARM = 0.0001;
 
       //POSITION VALUES (in encoder units)
-      public static final int armIntakeInStartingPosition = 70;
-      public static final int armIntakeOutPosition = 107;
+      public static final int armIntakeInStartingPosition = 80;
+      public static final int armIntakeOutPosition = 145;
     }
 
     //INTAKE CONSTANTS
@@ -187,13 +187,13 @@ public class Constants {
       public static final int miniArmMotorID = 22;
       public static final int absoluteEncoderPort = 6; //FIXME change to correct port
       //PID VALUES
-      public static final double KP_MINI_ARM = 0.035;
+      public static final double KP_MINI_ARM = 0.01;
       public static final double KI_MINI_ARM = 0.000; //FIXME adjust pid values for mini arm
-      public static final double KD_MINI_ARM = 0.0004;
+      public static final double KD_MINI_ARM = 0.0001;
       //POSITION VALUES (in encoder units)
-      public static final double miniArmStartingPosition = 0.00;
-      public static final double miniArmDropAlgaePosition = 20.00;
-      public static final double miniArmDownPosition = 40.00;
+      public static final double miniArmStartingPosition = 145.00;
+      public static final double miniArmDropAlgaePosition = 110.00;
+      public static final double miniArmDownPosition = 90;
 
     }
     //LED CONSTANTS
