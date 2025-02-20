@@ -11,6 +11,7 @@ import com.team5959.Constants.ControllerConstants;
 import com.team5959.subsystems.SwerveChassis;
 import com.team5959.subsystems.ElevatorSubsytem;
 import com.team5959.subsystems.IntakeSubsystem;
+import com.team5959.subsystems.LEDSubsystem;
 import com.team5959.subsystems.ArmIntakeSubsystem;
 import com.team5959.subsystems.MiniArmSubsystem;
 import com.team5959.commands.SwerveDrive;
@@ -18,6 +19,7 @@ import com.team5959.commands.ArmIntakeCommand;
 import com.team5959.commands.IntakeCommand;
 import com.team5959.commands.ElevatorCommand;
 import com.team5959.commands.MiniArmCommand;
+import com.team5959.commands.SetLEDColorCommand;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -41,7 +43,7 @@ public class RobotContainer {
   //drive buttons
   private final JoystickButton resetNavxButton = new JoystickButton(control, 10);
   
-
+  private final LEDSubsystem ledcitos = new LEDSubsystem(0);
   //AXIS
 
   public RobotContainer() {
@@ -51,7 +53,8 @@ public class RobotContainer {
     elevatorSubsytem.setDefaultCommand(new ElevatorCommand(elevatorSubsytem, ()-> controlOp.getRawButton(1), ()-> controlOp.getRawButton(3), ()-> controlOp.getRawButton(4), ()-> controlOp.getRawButton(2),()-> controlOp.getRawButton(5), ()-> controlOp.getRawButton(6)));
     armIntakeSubsystem.setDefaultCommand(new ArmIntakeCommand(armIntakeSubsystem, ()-> controlOp.getRawButtonPressed(8)));
     miniArmSubsystem.setDefaultCommand(new MiniArmCommand(miniArmSubsystem, ()-> control.getCrossButtonPressed(), ()-> control.getSquareButtonPressed()));
-    
+    ledcitos.setDefaultCommand(new SetLEDColorCommand(ledcitos, 125, 0, 50));
+
     configureBindings();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
   }
 
