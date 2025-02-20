@@ -14,7 +14,13 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 
     public class SwerveChassis extends SubsystemBase {
     //INITIALIZATION
@@ -25,6 +31,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
     //odometer
     private SwerveDriveOdometry odometer;
     private AHRS navx;
+
+    //Pathplanner
+    RobotConfig config;
 
     public SwerveChassis(){
         swerveModules = new SwerveModule[]{
@@ -43,6 +52,33 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
         SwerveConstants.DRIVE_KINEMATICS, 
         navx.getRotation2d(), 
         getModulePositions());
+
+    //Nuevo de pathplanner        
+      try{config = RobotConfig.fromGUISettings();
+      } catch (Exception e) {
+        // Handle exception as needed
+        e.printStackTrace();
+      }
+
+      //AutoBuilder
+      AutoBuilder.configure(
+        this::getPose,
+        this::resetOdometry,
+        this::getRobotRelativeSpeeds,
+        (speeds, feedforwards) -> driveRobotRelative(speeds),
+        new PPHolonomicDriveController( 
+        new PIDConstants(SwerveConstants.KP_AUTO_TRANSLATION, SwerveConstants.KI_AUTO_TRANSLATION, SwerveConstants.KD_AUTO_TRANSLATION), //Translation PID
+        new PIDConstants(SwerveConstants.KP_AUTO_ROTATION, SwerveConstants.KI_AUTO_ROTATION, SwerveConstants.KD_AUTO_ROTATION)),//Rotation PID
+        config,
+        () -> {
+            var alliance = DriverStation.getAlliance();
+            if (alliance.isPresent()) {
+                return alliance.get()==DriverStation.Alliance.Red;
+            } else {
+                return false;
+            }},
+            this
+            );
     }
 
     //ODOMETRY

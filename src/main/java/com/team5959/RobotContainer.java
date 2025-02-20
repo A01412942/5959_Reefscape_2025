@@ -25,6 +25,11 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PS4Controller;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import com.pathplanner.lib.auto.AutoBuilder;
+
 
 public class RobotContainer {
   //subsystems
@@ -44,6 +49,9 @@ public class RobotContainer {
 
   //AXIS
 
+  //Pathplanner
+  private final SendableChooser<Command> autoChooser;
+
   public RobotContainer() {
 
     swerveChassis.setDefaultCommand(new SwerveDrive(swerveChassis, () -> -control.getLeftY(), () -> -control.getLeftX(), () -> control.getRightX(), true));
@@ -52,6 +60,9 @@ public class RobotContainer {
     armIntakeSubsystem.setDefaultCommand(new ArmIntakeCommand(armIntakeSubsystem, ()-> control.getSquareButtonPressed()));
     miniArmSubsystem.setDefaultCommand(new MiniArmCommand(miniArmSubsystem, ()-> control.getTriangleButtonPressed(), ()-> control.getCircleButtonPressed()));
     
+    autoChooser = AutoBuilder.buildAutoChooser();
+    SmartDashboard.putData("Auto Chooser", autoChooser);
+
     configureBindings();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
   }
 
@@ -63,8 +74,7 @@ public class RobotContainer {
   }
   
   public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-    return null;
+    return autoChooser.getSelected();
   }
 }
 
