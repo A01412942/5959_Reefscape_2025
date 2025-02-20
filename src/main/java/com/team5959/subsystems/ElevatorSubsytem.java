@@ -6,6 +6,8 @@ import com.team5959.Constants.ElevatorConstants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
@@ -13,6 +15,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.SoftLimitConfig;
 
 public class ElevatorSubsytem extends SubsystemBase{
     //INITIALIZATION
@@ -33,9 +36,19 @@ public class ElevatorSubsytem extends SubsystemBase{
 
     //Target position
     private double targetPosition;
-
     private boolean isManualMode = false;
-    
+
+    //LIMITS
+    //Soft Limit Configuration
+    SoftLimitConfig elevatorRightSoftLimitConfig;
+    SoftLimitConfig elevatorLeftSoftLimitConfig;
+
+    //Digital sensors
+    DigitalInput digitalUpperLimitSwitch;
+    DigitalInput digitalDownLimitSwitch;
+    boolean elevatorUpperLimitSwitch;
+    boolean elevatorDownLimitSwitch;
+
     public ElevatorSubsytem(){
         //instatiate motors, config and encoder
         elevatorRight = new SparkMax(ElevatorConstants.elevatorRightID, MotorType.kBrushless);
@@ -43,21 +56,36 @@ public class ElevatorSubsytem extends SubsystemBase{
 
         elevatorEncoder = elevatorRight.getEncoder();
 
+        elevatorEncoder.setPosition(Constants.ElevatorConstants.elevatorStartingPosition);
+    
+        elevatorPID = new PIDController(Constants.ElevatorConstants.KP_ELEVATOR, Constants.ElevatorConstants.KI_ELEVATOR, Constants.ElevatorConstants.KD_ELEVATOR);
+
         elevatorRightConfig = new SparkMaxConfig();
         elevatorLeftConfig = new SparkMaxConfig();
+        elevatorRightSoftLimitConfig = new SoftLimitConfig();
+        elevatorLeftSoftLimitConfig = new SoftLimitConfig();
+
+        elevatorRightSoftLimitConfig.forwardSoftLimit(ElevatorConstants.elevatorLowerLimit); //positive values go down
+        elevatorRightSoftLimitConfig.reverseSoftLimit(ElevatorConstants.elevatorUpperLimit); //negative values go up
+        elevatorRightSoftLimitConfig.forwardSoftLimitEnabled(ElevatorConstants.forwardSoftLimitEnabled);
+        elevatorRightSoftLimitConfig.reverseSoftLimitEnabled(ElevatorConstants.reverseSoftLimitEnabled);
+
+        elevatorRightConfig.apply(elevatorRightSoftLimitConfig);
 
         elevatorLeftConfig.follow(elevatorRight, ElevatorConstants.elevatorLeftInverted);
         elevatorLeftConfig.idleMode(IdleMode.kBrake);
         elevatorRightConfig.idleMode(IdleMode.kBrake);
         elevatorRightConfig.inverted(ElevatorConstants.elevatorRightInverted);
-        
-        elevatorLeft.configure(elevatorLeftConfig, null, null);
-        elevatorRight.configure(elevatorRightConfig, null, null);
 
-        elevatorEncoder.setPosition(Constants.ElevatorConstants.elevatorStartingPosition);
-    
+        elevatorLeft.configure(elevatorLeftConfig, null, null);
+        elevatorRight.configure(elevatorRightConfig, null, null);        
+
+        digitalUpperLimitSwitch = new DigitalInput(ElevatorConstants.elevatorUpperLimitSwitch);
+        digitalDownLimitSwitch = new DigitalInput(ElevatorConstants.elevatorLowerLimitSwitch);
         
-        elevatorPID = new PIDController(Constants.ElevatorConstants.KP_ELEVATOR, Constants.ElevatorConstants.KI_ELEVATOR, Constants.ElevatorConstants.KD_ELEVATOR);
+
+
+
     }
     public void holdCurrentPosition() {
         // Set target to current position
@@ -96,6 +124,11 @@ public class ElevatorSubsytem extends SubsystemBase{
 
     public void elevatorManualMode(double speed){
         isManualMode = true;
+        if(elevatorUpperLimitSwitch){
+           speed = MathUtil.clamp(speed,0,0.4);
+        }else if(elevatorDownLimitSwitch){
+            speed =  MathUtil.clamp(speed,-0.4,0);
+        }   
         elevatorRight.set(speed);
     }
 
@@ -107,7 +140,13 @@ public class ElevatorSubsytem extends SubsystemBase{
   
     @Override
     public void periodic() {
+        elevatorUpperLimitSwitch = !digitalUpperLimitSwitch.get();
+        elevatorDownLimitSwitch = !digitalDownLimitSwitch.get();
+
         SmartDashboard.putNumber("Elevator Position", elevatorEncoder.getPosition());
+        SmartDashboard.putBoolean("Sensor arriba", elevatorUpperLimitSwitch);
+        SmartDashboard.putBoolean("Sensor abajo", elevatorDownLimitSwitch);
+
         // PID control mode
         if (!isManualMode) {
             double pidOutput = elevatorPID.calculate(elevatorEncoder.getPosition(), targetPosition);

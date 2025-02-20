@@ -152,6 +152,16 @@ public class Constants {
       public static final double elevatorL1Position = -20.00;
       public static final double elevatorL2Position = -40.00; //FIXME put actual positions,, remember to use negatives
       public static final double elevatorL3Position = -60.00;
+
+      //SOFT LIMITS
+      public static final double elevatorUpperLimit = -60.00;
+      public static final double elevatorLowerLimit = 0.00;
+      public static final boolean forwardSoftLimitEnabled = true;
+      public static final boolean reverseSoftLimitEnabled = true;
+
+      //DIGITAL INPUTS FOR LIMIT SWITCHES
+      public static final int elevatorUpperLimitSwitch = 1;
+      public static final int elevatorLowerLimitSwitch = 0;
     }
 
     //ARM CONSTANTS
