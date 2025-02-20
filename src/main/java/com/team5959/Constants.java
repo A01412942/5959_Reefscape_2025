@@ -206,4 +206,9 @@ public class Constants {
       public static final double miniArmDownPosition = 90;
 
     }
+    //LED CONSTANTS
+    public static class LedConstants{
+      public static final int ledPort = 0;
+      public static final int ledLength = 27;
+    }
 }
