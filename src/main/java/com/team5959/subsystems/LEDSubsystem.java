@@ -11,6 +11,9 @@ public class LEDSubsystem extends SubsystemBase {
     private final int ledCount = 27; // Adjust based on LED count
     
     private int rainbowFirstPixelHue = 0;
+    double lastTime = 0;
+    double interval = 0.25;
+    boolean ledBlink = true;
 
     public LEDSubsystem(int PWMPort) {
         led = new AddressableLED(PWMPort);
@@ -24,14 +27,20 @@ public class LEDSubsystem extends SubsystemBase {
         // If match is in progress (teleop or auto)
         if (DriverStation.isEnabled()) {
             double matchTime = DriverStation.getMatchTime();
-            
+            if(matchTime <= 10.0 && matchTime != -1 && ((((int)matchTime *2 )/ 2) % 2 == 0)){
+                setAllLEDs(0, 0, 0); 
+                if ( ((((int)matchTime *2 )/ 2) % 2 != 0)){
+                    setAllLEDs(0, 255, 0); 
+                }
+
+            }
             // Last 20 seconds: Green
-            if (matchTime <= 20.0 && matchTime != -1) {
+             else if (matchTime <= 20.0 && matchTime != -1) {
                 setAllLEDs(0, 255, 0);  // Green
             } 
             // Rest of match: Red
             else {
-                setAllLEDs(255, 0, 0);  // Red
+                setAllLEDs(255, 0, 3);  // Red
             }
         }
         // If disabled (including after match): Rainbow
@@ -39,8 +48,8 @@ public class LEDSubsystem extends SubsystemBase {
             runRainbowAnimation();
         }
         
-        led.setData(ledBuffer);
-    }
+        led.setData(ledBuffer); } 
+    
 
     private void setAllLEDs(int r, int g, int b) {
         for (var i = 0; i < ledBuffer.getLength(); i++) {
