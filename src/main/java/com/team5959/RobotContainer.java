@@ -22,13 +22,18 @@ import com.team5959.commands.MiniArmCommand;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
+import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import java.nio.file.Path;
+
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.path.PathPlannerPath;
 
 
 public class RobotContainer {
@@ -68,13 +73,22 @@ public class RobotContainer {
 
   private void configureBindings() { 
     resetNavxButton.onTrue(new InstantCommand(() -> swerveChassis.resetNavx()));
+
+    SmartDashboard.putData("Example Auto", new PathPlannerAuto("Example Path"));
   }
   
   public void periodic(){
   }
   
   public Command getAutonomousCommand() {
-    return autoChooser.getSelected();
+  try{
+    PathPlannerPath path = PathPlannerPath.fromPathFile("Example Path");
+
+    return AutoBuilder.followPath(path);
+  } catch (Exception e) {
+    DriverStation.reportError("Error loading path: " + e.getMessage(), e.getStackTrace());
+    return Commands.none();
+  }
   }
 }
 
