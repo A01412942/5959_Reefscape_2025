@@ -144,18 +144,18 @@ public class Constants {
       public static final boolean elevatorLeftInverted = true;
         
       //PID VALUES
-      public static final double KP_ELEVATOR = 0.035;
+      public static final double KP_ELEVATOR = 0.01;
       public static final double KI_ELEVATOR = 0.000; //FIXME adjust pid values for elevator
-      public static final double KD_ELEVATOR = 0.0004;
+      public static final double KD_ELEVATOR = 0.0001;
       //POSITION VALUES (in encoder units)
-      public static final double elevatorStartingPosition = 0.00;
-      public static final double elevatorL1Position = -20.00;
-      public static final double elevatorL2Position = -40.00; //FIXME put actual positions,, remember to use negatives
-      public static final double elevatorL3Position = -60.00;
+      public static final double elevatorStartingPosition = -10.00;
+      public static final double elevatorL1Position = -60.00;  //-60
+      public static final double elevatorL2Position = -93.00; //-93 //USE NEGATIVES
+      public static final double elevatorL3Position = -190.00; //-190
 
       //SOFT LIMITS
-      public static final double elevatorUpperLimit = -60.00;
-      public static final double elevatorLowerLimit = 0.00;
+      public static final double elevatorUpperLimit = -190.00;
+      public static final double elevatorLowerLimit = -10.00;
       public static final boolean forwardSoftLimitEnabled = true;
       public static final boolean reverseSoftLimitEnabled = true;
 

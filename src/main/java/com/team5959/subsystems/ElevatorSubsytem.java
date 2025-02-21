@@ -56,7 +56,7 @@ public class ElevatorSubsytem extends SubsystemBase{
 
         elevatorEncoder = elevatorRight.getEncoder();
 
-        elevatorEncoder.setPosition(Constants.ElevatorConstants.elevatorStartingPosition);
+        elevatorEncoder.setPosition(0);
     
         elevatorPID = new PIDController(Constants.ElevatorConstants.KP_ELEVATOR, Constants.ElevatorConstants.KI_ELEVATOR, Constants.ElevatorConstants.KD_ELEVATOR);
 
