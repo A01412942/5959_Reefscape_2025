@@ -55,6 +55,13 @@ public class RobotContainer {
   public static final String kForward = "Forward";
   public static final String kRight = "Right";
   public static final String kLeft = "Left";
+  public static final String kBlueDiverStation1 = "Blue Drive Station 1";
+  public static final String kBlueDriverStation2 = "Blue Drive Station 2";
+  public static final String kBlueDriverStation3 = "Blue Drive Station 3";
+  public static final String kRedDriverStation1 = "Red Drive Station 1";
+  public static final String kRedDriverStation2 = "Red Drive Station 2";
+  public static final String kRedDriverStation3 = "Red Drive Station 3";
+  public static final String kTestDriverStation3 = "Test Driver Station 3";
   
 
   //AXIS
@@ -73,9 +80,16 @@ public class RobotContainer {
     miniArmSubsystem.setDefaultCommand(new MiniArmCommand(miniArmSubsystem, ()-> control.getTriangleButtonPressed(), ()-> control.getCircleButtonPressed()));
     
     autoChooser = new SendableChooser<>();
-    autoChooser.setDefaultOption("Forward",kForward);
+    autoChooser.setDefaultOption("Forward", kForward);
     autoChooser.addOption("Right", kRight);
     autoChooser.addOption("Left", kLeft);
+    autoChooser.addOption("Blue Drive Station 1", kBlueDiverStation1);
+    autoChooser.addOption("Blue Drive Station 2", kBlueDriverStation2);
+    autoChooser.addOption("Blue Drive Station 3", kBlueDriverStation3);
+    autoChooser.addOption("Red Drive Station 1", kRedDriverStation1);
+    autoChooser.addOption("Red Drive Station 2", kRedDriverStation2);
+    autoChooser.addOption("Red Drive Station 3", kRedDriverStation3);
+    autoChooser.addOption("Test Driver Station 3", kTestDriverStation3);
     SmartDashboard.putData("Auto Chooser", autoChooser);
 
     configureBindings();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
@@ -94,22 +108,50 @@ public class RobotContainer {
   try{
      autoChoose = autoChooser.getSelected();
 
-     switch (autoChoose) {
-      case kForward:
-        path = PathPlannerPath.fromPathFile("Forward");
+    switch (autoChoose) {
+     case kForward:
+       path = PathPlannerPath.fromPathFile("Forward");
+       break;
+     
+     case kLeft:
+       path = PathPlannerPath.fromPathFile("Left");
+       break;
+
+     case kRight:
+       path = PathPlannerPath.fromPathFile("Right");
+       break;
+
+     case kBlueDiverStation1:
+       path = PathPlannerPath.fromPathFile("Blue Driver Station 1");
+       break;
+
+     case kBlueDriverStation2:
+       path = PathPlannerPath.fromPathFile("Blue Driver Station 2");
+       break;
+
+     case kBlueDriverStation3:
+       path = PathPlannerPath.fromPathFile("Blue Driver Station 3");
+       break;
+
+     case kRedDriverStation1:
+       path = PathPlannerPath.fromPathFile("Red Driver Station 1");
+       break;
+
+     case kRedDriverStation2:
+       path = PathPlannerPath.fromPathFile("Red Driver Station 2");
+       break;
+
+     case kRedDriverStation3:
+       path = PathPlannerPath.fromPathFile("Red Driver Station 3");
+       break;
+
+      case kTestDriverStation3:
+        path = PathPlannerPath.fromPathFile("Test Driver Station 3");
         break;
       
-      case kLeft:
-        path = PathPlannerPath.fromPathFile("Left");
-        break;
-
-      case kRight:
-        path = PathPlannerPath.fromPathFile("Right");
-        break;
-
-      default:
-        break;
-     }
+     default:
+       break;
+    }
 
     return AutoBuilder.followPath(path);
   } catch (Exception e) {
