@@ -50,12 +50,19 @@ public class RobotContainer {
 
   //drive buttons
   private final JoystickButton resetNavxButton = new JoystickButton(control, 10);
+
+  //Autonomous
+  public static final String kForward = "Forward";
+  public static final String kRight = "Right";
+  public static final String kLeft = "Left";
   
 
   //AXIS
 
   //Pathplanner
-  private final SendableChooser<Command> autoChooser;
+  private final SendableChooser<String> autoChooser;
+  private PathPlannerPath path;
+  private String autoChoose;
 
   public RobotContainer() {
 
@@ -65,7 +72,10 @@ public class RobotContainer {
     armIntakeSubsystem.setDefaultCommand(new ArmIntakeCommand(armIntakeSubsystem, ()-> control.getSquareButtonPressed()));
     miniArmSubsystem.setDefaultCommand(new MiniArmCommand(miniArmSubsystem, ()-> control.getTriangleButtonPressed(), ()-> control.getCircleButtonPressed()));
     
-    autoChooser = AutoBuilder.buildAutoChooser();
+    autoChooser = new SendableChooser<>();
+    autoChooser.setDefaultOption("Forward",kForward);
+    autoChooser.addOption("Right", kRight);
+    autoChooser.addOption("Left", kLeft);
     SmartDashboard.putData("Auto Chooser", autoChooser);
 
     configureBindings();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
@@ -82,7 +92,24 @@ public class RobotContainer {
   
   public Command getAutonomousCommand() {
   try{
-    PathPlannerPath path = PathPlannerPath.fromPathFile("Forward");
+     autoChoose = autoChooser.getSelected();
+
+     switch (autoChoose) {
+      case kForward:
+        path = PathPlannerPath.fromPathFile("Forward");
+        break;
+      
+      case kLeft:
+        path = PathPlannerPath.fromPathFile("Left");
+        break;
+
+      case kRight:
+        path = PathPlannerPath.fromPathFile("Right");
+        break;
+
+      default:
+        break;
+     }
 
     return AutoBuilder.followPath(path);
   } catch (Exception e) {
