@@ -1,5 +1,7 @@
 package com.team5959.commands;
 
+import com.team5959.Constants.ElevatorConstants;
+import com.team5959.subsystems.ElevatorSubsytem;
 import com.team5959.subsystems.IntakeSubsystem;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -10,11 +12,14 @@ public class IntakeCommand extends Command{
 
     //INITIALIZATION
     private final IntakeSubsystem intakeSubsystem;
+    private final ElevatorSubsytem elevatorSubsytem;
     private final DoubleSupplier  ltCoralAxisSupplier, rtCoralAxisSupplier, l2AlgaeAxisSupplier, r2AlgaeAxisSupplier;
 
+
     //CONSTRUCTOR
-    public IntakeCommand(IntakeSubsystem intakeSubsystem, DoubleSupplier ltCoralAxisSupplier, DoubleSupplier rtCoralAxisSupplier,DoubleSupplier l2AlgaeAxisSupplier, DoubleSupplier r2AlgaeAxisSupplier){
+    public IntakeCommand(IntakeSubsystem intakeSubsystem, ElevatorSubsytem elevatorSubsytem, DoubleSupplier ltCoralAxisSupplier, DoubleSupplier rtCoralAxisSupplier,DoubleSupplier l2AlgaeAxisSupplier, DoubleSupplier r2AlgaeAxisSupplier){
         this.intakeSubsystem = intakeSubsystem;
+        this.elevatorSubsytem = elevatorSubsytem;
         this.ltCoralAxisSupplier = ltCoralAxisSupplier;
         this.rtCoralAxisSupplier = rtCoralAxisSupplier;
         this.l2AlgaeAxisSupplier = l2AlgaeAxisSupplier;
@@ -43,12 +48,20 @@ public class IntakeCommand extends Command{
         }
 
         if (ltCoralAxis > 0.5) {
-            intakeSubsystem.runCoralIntake(0.75);
-         } else if (rtCoralAxis > 0.5) {
-            intakeSubsystem.runCoralIntake(-0.75);
-         } else {
+            if (elevatorSubsytem.getTargetPosition() == ElevatorConstants.elevatorStartingPosition) {
+                intakeSubsystem.runCoralIntake(0.4);
+            } else {
+                intakeSubsystem.runCoralIntake(0.75);
+            }
+        } else if (rtCoralAxis > 0.5) {
+            if (elevatorSubsytem.getTargetPosition() == ElevatorConstants.elevatorStartingPosition) {
+                intakeSubsystem.runCoralIntake(-0.4);
+            } else {
+                intakeSubsystem.runCoralIntake(-0.75);
+            }
+        } else {
             intakeSubsystem.stopCoralIntake();
-         }
+        }
     }
       
     @Override

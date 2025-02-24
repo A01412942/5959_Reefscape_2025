@@ -84,11 +84,8 @@ public class ElevatorSubsytem extends SubsystemBase{
 
         digitalUpperLimitSwitch = new DigitalInput(ElevatorConstants.elevatorUpperLimitSwitch);
         digitalDownLimitSwitch = new DigitalInput(ElevatorConstants.elevatorLowerLimitSwitch);
-        
-
-
-
     }
+
     public void holdCurrentPosition() {
         // Set target to current position
         targetPosition = elevatorEncoder.getPosition(); 
@@ -121,7 +118,11 @@ public class ElevatorSubsytem extends SubsystemBase{
 
     // Method to set a target position
     public void setTargetPosition(double position) {
-        targetPosition = position;
+        this.targetPosition = position;
+    }
+
+    public double getTargetPosition() {
+        return targetPosition;
     }
 
     public void elevatorManualMode(double speed){

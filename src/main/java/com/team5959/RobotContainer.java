@@ -49,7 +49,7 @@ public class RobotContainer {
   public RobotContainer() {
 
     swerveChassis.setDefaultCommand(new SwerveDrive(swerveChassis, () -> -control.getLeftY(), () -> -control.getLeftX(), () -> control.getRightX(), true));
-    intakeSubsystem.setDefaultCommand(new IntakeCommand(intakeSubsystem, ()-> controlOp.getRawAxis(2), ()-> controlOp.getRawAxis(3), ()-> control.getL2Axis(), ()-> control.getR2Axis()));
+    intakeSubsystem.setDefaultCommand(new IntakeCommand(intakeSubsystem, elevatorSubsytem, ()-> controlOp.getRawAxis(2), ()-> controlOp.getRawAxis(3), ()-> control.getL2Axis(), ()-> control.getR2Axis()));
     elevatorSubsytem.setDefaultCommand(new ElevatorCommand(elevatorSubsytem, ()-> controlOp.getRawButton(1), ()-> controlOp.getRawButton(3), ()-> controlOp.getRawButton(4), ()-> controlOp.getRawButton(2),()-> controlOp.getRawButton(5), ()-> controlOp.getRawButton(6)));
     armIntakeSubsystem.setDefaultCommand(new ArmIntakeCommand(armIntakeSubsystem, ()-> control.getSquareButtonPressed()));
     miniArmSubsystem.setDefaultCommand(new MiniArmCommand(miniArmSubsystem, ()-> control.getTriangleButtonPressed(), ()-> control.getCircleButtonPressed()));
