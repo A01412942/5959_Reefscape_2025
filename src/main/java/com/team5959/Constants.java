@@ -26,7 +26,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 
 //   20 · coralIntakeMotorRight 25:1
 //   21 · coralIntakeMotorLeft 25:1
-   
+
 //   22 · miniArmMotor 50:1
 //  =================
 public class Constants {
@@ -176,7 +176,8 @@ public class Constants {
       public static final double KD_ARM = 0.0001;
 
       //POSITION VALUES (in encoder units)
-      public static final int armIntakeInStartingPosition = 80;
+      public static final int armIntakeInStartingPosition = 100;
+      public static final int armIntakeInPerimeterPosition = 80;
       public static final int armIntakeOutPosition = 145;
     }
 

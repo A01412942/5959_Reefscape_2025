@@ -11,15 +11,15 @@ public class ArmIntakeCommand extends Command{
     //INITIALIZATION
     private final ArmIntakeSubsystem armIntakeSubsystem;
 
-    private BooleanSupplier armButtonIsPressedSupplier;
+    private BooleanSupplier armButtonIsPressedSupplier, armCrossButtonIsPressedSupplier;
 
     boolean isArmOut;
 
     //CONSTRUCTOR
-    public ArmIntakeCommand(ArmIntakeSubsystem armSubsystem, BooleanSupplier armButtonIsPressedSupplier){
+    public ArmIntakeCommand(ArmIntakeSubsystem armSubsystem, BooleanSupplier armButtonIsPressedSupplier, BooleanSupplier armCrossButtonIsPressedSupplier){
         this.armIntakeSubsystem = armSubsystem;
         this.armButtonIsPressedSupplier = armButtonIsPressedSupplier;
-     
+        this.armCrossButtonIsPressedSupplier = armCrossButtonIsPressedSupplier;
         addRequirements(armSubsystem);
     }
 
@@ -29,6 +29,7 @@ public class ArmIntakeCommand extends Command{
 
       //Joystick buttons -> boolean
       boolean armButtonIsPressed = armButtonIsPressedSupplier.getAsBoolean();
+      boolean armCrossButtonIsPressed = armCrossButtonIsPressedSupplier.getAsBoolean();
 
       if (armButtonIsPressed){
         if (!isArmOut){
@@ -38,6 +39,10 @@ public class ArmIntakeCommand extends Command{
         isArmOut = false;
         armIntakeSubsystem.moveToOutPosition();
         }
+      }
+
+      if(armCrossButtonIsPressed){
+        armIntakeSubsystem.moveToInPerimeterPosition();
       }
     } 
 

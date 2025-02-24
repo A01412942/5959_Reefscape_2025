@@ -70,6 +70,10 @@ public class ArmIntakeSubsystem extends SubsystemBase{
     public void moveToOutPosition(){
         setArmTargetPosition(ArmConstants.armIntakeOutPosition);
     }
+
+    public void moveToInPerimeterPosition(){
+        setArmTargetPosition(ArmConstants.armIntakeInPerimeterPosition);
+    }
     
     @Override
     public void periodic() {
