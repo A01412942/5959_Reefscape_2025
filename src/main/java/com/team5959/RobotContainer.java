@@ -71,10 +71,10 @@ public class RobotContainer {
     configureBindings();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
   }
 
-  private void configureBindings() { 
+  private void configureBindings() {
     resetNavxButton.onTrue(new InstantCommand(() -> swerveChassis.resetNavx()));
 
-    SmartDashboard.putData("Example Auto", new PathPlannerAuto("Example Path"));
+    SmartDashboard.putData("Example Auto", new PathPlannerAuto("Forward"));
   }
   
   public void periodic(){
@@ -82,7 +82,7 @@ public class RobotContainer {
   
   public Command getAutonomousCommand() {
   try{
-    PathPlannerPath path = PathPlannerPath.fromPathFile("Example Path");
+    PathPlannerPath path = PathPlannerPath.fromPathFile("Forward");
 
     return AutoBuilder.followPath(path);
   } catch (Exception e) {

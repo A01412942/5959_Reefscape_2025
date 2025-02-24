@@ -121,18 +121,18 @@ public class Constants {
       public static final double KI_TURNING = 0.0002;
       public static final double KD_TURNING = 0.0001;
     
-      public static final double KP_AUTO_TRANSLATION = 0.285;
-      public static final double KI_AUTO_TRANSLATION = 0.001;
-      public static final double KD_AUTO_TRANSLATION = 0.0002;
+      public static final double KP_AUTO_TRANSLATION = 0.0001;
+      public static final double KI_AUTO_TRANSLATION = 0.000;
+      public static final double KD_AUTO_TRANSLATION = 0.00001;
       public static final double TRANSLATION_TOLLERANCE = 0.025; // tolerance in meters
     
-      public static final double KP_AUTO_ROTATION = 0.0011;
+      public static final double KP_AUTO_ROTATION = 0.0001;
       public static final double KI_AUTO_ROTATION = 0.000;
-      public static final double KD_AUTO_ROTATION = 0.0005;
+      public static final double KD_AUTO_ROTATION = 0.0001;
       public static final double ROTATION_TOLLERANCE = 1.5; // tolerance in dergrees
     
       //MAX
-      public static final double MAX_SPEED = 3.6576; //12.0 ft/s 
+      public static final double MAX_SPEED = 3.6576; //12.0 ft/s 3.6576
       public static final double MAX_ROTATION = MAX_SPEED / Math.hypot(TRACK_WIDTH / 2.0, WHEEL_BASE / 2.0);
       }
 
