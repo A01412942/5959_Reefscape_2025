@@ -1,9 +1,13 @@
 package com.team5959.subsystems;
 
+import java.util.Optional;
+
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 
 public class LEDSubsystem extends SubsystemBase {
     private final AddressableLED led;
@@ -14,6 +18,8 @@ public class LEDSubsystem extends SubsystemBase {
     double lastTime = 0;
     double interval = 0.25;
     boolean ledBlink = true;
+
+    Optional<Alliance> ally;
 
     public LEDSubsystem(int PWMPort) {
         led = new AddressableLED(PWMPort);
@@ -58,7 +64,12 @@ public class LEDSubsystem extends SubsystemBase {
             } 
             // Rest of match: Red
             else {
-                setAllLEDs(255, 0, 3);  // Red
+               Optional<Alliance> ally = DriverStation.getAlliance();
+                if (ally.get() == Alliance.Red){
+                    setAllLEDs(255, 0, 3);  // Red   
+                } else {
+                    setAllLEDs(0, 0, 255);  // Blue
+                }  
             }
         }
         // If disabled (including after match): Rainbow
