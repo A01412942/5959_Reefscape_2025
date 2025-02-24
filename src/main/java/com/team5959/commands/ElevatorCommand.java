@@ -13,6 +13,8 @@ public class ElevatorCommand extends Command{
     private final BooleanSupplier buttonAIsPressedSupplier, buttonXIsPressedSupplier, buttonYIsPressedSupplier, buttonBIsPressedSupplier;
     private final BooleanSupplier lbButtonSupplier, rbButtonSupplier;
 
+  //  public Boolean StartingPosition = false;
+
     //CONSTRUCTOR
     public ElevatorCommand(ElevatorSubsytem elevatorSubsytem, BooleanSupplier buttonAIsPressedSupplier, BooleanSupplier buttonXIsPressedSupplier, BooleanSupplier buttonYIsPressedSupplier, BooleanSupplier buttonBIsPressedSupplier, BooleanSupplier lbBooleanSupplier, BooleanSupplier rbBooleanSupplier){
         this.elevatorSubsytem = elevatorSubsytem;
@@ -38,6 +40,7 @@ public class ElevatorCommand extends Command{
         boolean lbButton = lbButtonSupplier.getAsBoolean();
         boolean rbButton= rbButtonSupplier.getAsBoolean();
         boolean isManualMode = false;
+        
      
         if (buttonAIsPressed || buttonXIsPressed || buttonYIsPressed || buttonBIsPressed) {
             isManualMode = false;
@@ -55,13 +58,17 @@ public class ElevatorCommand extends Command{
             }
         } else {
             if (buttonAIsPressed) {
-                elevatorSubsytem.moveToStartingPosition(); // Replace with actual position
+                elevatorSubsytem.moveToStartingPosition();
+ //               StartingPosition = true; // Replace with actual position
             } else if (buttonXIsPressed) {
-                elevatorSubsytem.moveToL1Position(); // Replace with actual position
+                elevatorSubsytem.moveToL1Position(); 
+   //             StartingPosition = false;// Replace with actual position
             } else if (buttonYIsPressed) {
-                elevatorSubsytem.moveToL2Position(); // Replace with actual position
+                elevatorSubsytem.moveToL2Position();
+     //           StartingPosition = false; // Replace with actual position
             } else if (buttonBIsPressed) {
-                elevatorSubsytem.moveToL3Position();// Replace with actual position
+                elevatorSubsytem.moveToL3Position();
+       //         StartingPosition = false;// Replace with actual position
             }
 
         }

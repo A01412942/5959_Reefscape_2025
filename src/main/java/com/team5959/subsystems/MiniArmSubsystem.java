@@ -27,7 +27,7 @@ public class MiniArmSubsystem extends SubsystemBase{
     private final PIDController miniArmPID;
 
     //Target position
-    private double miniArmTargetPosition = 145;
+    private double miniArmTargetPosition = 150;
 
     public MiniArmSubsystem(){
         //instatiate motors, config and encoder

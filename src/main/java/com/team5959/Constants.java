@@ -147,6 +147,7 @@ public class Constants {
       public static final double KP_ELEVATOR = 0.01;
       public static final double KI_ELEVATOR = 0.000; //FIXME adjust pid values for elevator
       public static final double KD_ELEVATOR = 0.0001;
+      public static final double KP_SP_ELEVATOR = 0.003;  //SPECIAL P FOR STARTING POSITION
       //POSITION VALUES (in encoder units)
       public static final double elevatorStartingPosition = -15.00;
       public static final double elevatorL1Position = -60.00;  //-60
@@ -197,13 +198,13 @@ public class Constants {
       public static final int miniArmMotorID = 22;
       public static final int absoluteEncoderPort = 6; //FIXME change to correct port
       //PID VALUES
-      public static final double KP_MINI_ARM = 0.01;
+      public static final double KP_MINI_ARM = 0.005;
       public static final double KI_MINI_ARM = 0.000; //FIXME adjust pid values for mini arm
       public static final double KD_MINI_ARM = 0.0001;
       //POSITION VALUES (in encoder units)
-      public static final double miniArmStartingPosition = 145.00;
+      public static final double miniArmStartingPosition = 150.00;
       public static final double miniArmDropAlgaePosition = 110.00;
-      public static final double miniArmDownPosition = 90;
+      public static final double miniArmDownPosition = 80;
 
     }
     //LED CONSTANTS

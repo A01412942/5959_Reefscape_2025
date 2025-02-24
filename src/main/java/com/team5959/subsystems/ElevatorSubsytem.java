@@ -33,6 +33,7 @@ public class ElevatorSubsytem extends SubsystemBase{
 
     //initialize PID controller
     private final PIDController elevatorPID;
+    private final PIDController elevatorStartingPositionPID;
 
     //Target position
     private double targetPosition;
@@ -59,7 +60,8 @@ public class ElevatorSubsytem extends SubsystemBase{
         elevatorEncoder.setPosition(0);
     
         elevatorPID = new PIDController(Constants.ElevatorConstants.KP_ELEVATOR, Constants.ElevatorConstants.KI_ELEVATOR, Constants.ElevatorConstants.KD_ELEVATOR);
-
+        elevatorStartingPositionPID = new PIDController(ElevatorConstants.KP_SP_ELEVATOR, ElevatorConstants.KI_ELEVATOR, ElevatorConstants.KP_ELEVATOR);
+        
         elevatorRightConfig = new SparkMaxConfig();
         elevatorLeftConfig = new SparkMaxConfig();
         elevatorRightSoftLimitConfig = new SoftLimitConfig();
@@ -142,6 +144,7 @@ public class ElevatorSubsytem extends SubsystemBase{
     public void periodic() {
         elevatorUpperLimitSwitch = !digitalUpperLimitSwitch.get();
         elevatorDownLimitSwitch = !digitalDownLimitSwitch.get();
+        
 
         SmartDashboard.putNumber("Elevator Position", elevatorEncoder.getPosition());
         SmartDashboard.putBoolean("Sensor arriba", elevatorUpperLimitSwitch);
@@ -149,9 +152,14 @@ public class ElevatorSubsytem extends SubsystemBase{
 
         // PID control mode
         if (!isManualMode) {
-            double pidOutput = elevatorPID.calculate(elevatorEncoder.getPosition(), targetPosition);
-            elevatorRight.set(pidOutput); 
-        } else{
+            if (targetPosition == -10) {
+                double pidOutput = elevatorStartingPositionPID.calculate(elevatorEncoder.getPosition(), targetPosition);
+                elevatorRight.set(pidOutput);
+            } else {
+                double pidOutput = elevatorPID.calculate(elevatorEncoder.getPosition(), targetPosition);
+                elevatorRight.set(pidOutput);
+            }
+        } else {
             isManualMode = true;
         }
     // Set the motor to the calculated PID output
