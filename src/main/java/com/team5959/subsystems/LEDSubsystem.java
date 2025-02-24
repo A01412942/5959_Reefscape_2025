@@ -27,11 +27,29 @@ public class LEDSubsystem extends SubsystemBase {
         // If match is in progress (teleop or auto)
         if (DriverStation.isEnabled()) {
             double matchTime = DriverStation.getMatchTime();
-            if(matchTime <= 10.0 && matchTime != -1 && ((((int)matchTime *2 )/ 2) % 2 == 0)){
+          if(matchTime <= 10.0 && matchTime != -1){
+            
+            /*/
+             && ((((int)matchTime *2 )/ 2) % 2 == 0)
                 setAllLEDs(0, 0, 0); 
                 if ( ((((int)matchTime *2 )/ 2) % 2 != 0)){
                     setAllLEDs(0, 255, 0); 
                 }
+                */
+                /*double blinkFrequency = 2 + (10 - matchTime) * 1.2; // Adjust the 0.8 multiplier to change how quickly it speeds up
+                */
+                // Calculate the amount of time that will blink
+                double blinkFrequency = 2 + (10 - (matchTime/2)) * 4;
+                // Calculate whether LED should be on or off, using a sin function
+                boolean shouldBeOn = Math.sin(matchTime * blinkFrequency) > 0;
+
+                    if (shouldBeOn) {
+                        setAllLEDs(0, 255, 0);  // Green
+
+                    } else{
+                        setAllLEDs(0, 5, 0);
+                    }
+
 
             }
             // Last 20 seconds: Green
