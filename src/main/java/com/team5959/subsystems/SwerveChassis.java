@@ -42,9 +42,14 @@ import com.pathplanner.lib.util.swerve.SwerveSetpoint;
     RobotConfig config;
     private final SwerveSetpointGenerator setpointGenerator;
     private SwerveSetpoint previousSetpoint;
+    
     Field2d field = new Field2d();
 
     public SwerveChassis(){
+
+        field = new Field2d();
+        SmartDashboard.putData("field",field);
+
         swerveModules = new SwerveModule[]{
             new SwerveModule(0, SwerveConstants.FrontLeft.constants),
             new SwerveModule(1, SwerveConstants.FrontRight.constants),
