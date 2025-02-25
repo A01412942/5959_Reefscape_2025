@@ -12,9 +12,21 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry; //FIXME make comments on functionality of the lib
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import com.pathplanner.lib.util.swerve.SwerveSetpointGenerator;
+import com.pathplanner.lib.util.DriveFeedforwards;
+import com.pathplanner.lib.util.PathPlannerLogging;
+import com.pathplanner.lib.util.swerve.SwerveSetpoint;
 
     public class SwerveChassis extends SubsystemBase {
     //INITIALIZATION
@@ -26,7 +38,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
     private SwerveDriveOdometry odometer;
     private AHRS navx;
 
+    //Pathplanner
+    RobotConfig config;
+    private final SwerveSetpointGenerator setpointGenerator;
+    private SwerveSetpoint previousSetpoint;
+    
+    Field2d field = new Field2d();
+
     public SwerveChassis(){
+
+        field = new Field2d();
+        SmartDashboard.putData("field",field);
+
         swerveModules = new SwerveModule[]{
             new SwerveModule(0, SwerveConstants.FrontLeft.constants),
             new SwerveModule(1, SwerveConstants.FrontRight.constants),
@@ -43,7 +66,46 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
         SwerveConstants.DRIVE_KINEMATICS, 
         navx.getRotation2d(), 
         getModulePositions());
-    }
+
+    //Nuevo de pathplanner        
+        try{config = RobotConfig.fromGUISettings();
+            AutoBuilder.configure(
+            this::getPose,
+            this::resetOdometry,
+            this::getRobotRelativeSpeeds,
+            (speeds, feedforwards) -> driveRobotRelative(speeds),
+            new PPHolonomicDriveController( 
+            new PIDConstants(SwerveConstants.KP_AUTO_TRANSLATION, SwerveConstants.KI_AUTO_TRANSLATION, SwerveConstants.KD_AUTO_TRANSLATION), //Translation PID
+            new PIDConstants(SwerveConstants.KP_AUTO_ROTATION, SwerveConstants.KI_AUTO_ROTATION, SwerveConstants.KD_AUTO_ROTATION)),//Rotation PID
+            config,
+            () -> {
+                var alliance = DriverStation.getAlliance();
+                if (alliance.isPresent()) {
+                    return alliance.get()==DriverStation.Alliance.Red;
+                } else {
+                    return false;
+                }},
+                this
+                );
+        }
+        catch (Exception e) {
+        DriverStation.reportError("Error loading path: " + e.getMessage(), e.getStackTrace());
+        }
+
+        PathPlannerLogging.setLogActivePathCallback((poses)-> field.getObject("path").setPoses(poses));
+        SmartDashboard.putData("Field", field);
+
+        setpointGenerator = new SwerveSetpointGenerator(
+        config,
+        Units.rotationsToRadians(7.38)
+        );
+
+        ChassisSpeeds currentSpeeds = getRobotRelativeSpeeds();
+        SwerveModuleState[] currentStates = getModuleStates();
+        previousSetpoint = new SwerveSetpoint(currentSpeeds, currentStates, DriveFeedforwards.zeros(config.numModules));
+
+      
+        }
 
     //ODOMETRY
 
@@ -174,6 +236,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
         SmartDashboard.putNumber("NAVX", navx.getYaw());
         SmartDashboard.putString("POSE INFO", odometer.getPoseMeters().toString());
         SmartDashboard.putNumber("rot 2d", ((getRotation2d().getDegrees() % 360)+ 360) % 360); //FIXME I don't get what is happening here either
+
+        
     }
 
     //ADDED METHODS
