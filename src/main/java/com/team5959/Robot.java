@@ -9,6 +9,8 @@ import com.pathplanner.lib.commands.FollowPathCommand;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.cameraserver.CameraServer; //web cam
+import edu.wpi.first.cscore.UsbCamera;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
@@ -19,6 +21,13 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
 
     FollowPathCommand.warmupCommand().schedule();
+  }
+
+  @Override
+  public void robotInit() {
+  UsbCamera camera = CameraServer.startAutomaticCapture();
+  camera.setResolution(320, 240);
+  camera.setFPS(15);
   }
 
   @Override

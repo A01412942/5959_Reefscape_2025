@@ -3,6 +3,7 @@ package com.team5959.commands;
 import com.team5959.Constants.SwerveConstants;
 import com.team5959.subsystems.SwerveChassis;
 
+import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -13,14 +14,16 @@ public class SwerveDrive extends Command { //extends is used to indicate that a 
     private SwerveChassis swerveChassis;
 
     private DoubleSupplier xSupplier, ySupplier, zSupplier;
+    private BooleanSupplier lockButtonSupplier;
     private boolean fieldOriented;
 
     //Chassis constructor
-    public SwerveDrive(SwerveChassis swerveChassis, DoubleSupplier xSupplier, DoubleSupplier ySupplier, DoubleSupplier zSupplier, boolean fieldOriented){
+    public SwerveDrive(SwerveChassis swerveChassis, DoubleSupplier xSupplier, DoubleSupplier ySupplier, DoubleSupplier zSupplier, boolean fieldOriented, BooleanSupplier lockButtonSupplier){
         this.swerveChassis = swerveChassis;
         this.xSupplier = xSupplier;
         this.ySupplier = ySupplier;
         this.zSupplier = zSupplier;
+        this.lockButtonSupplier = lockButtonSupplier;
         this.fieldOriented = fieldOriented;
         
         addRequirements(swerveChassis);
@@ -45,6 +48,8 @@ public class SwerveDrive extends Command { //extends is used to indicate that a 
         double ySpeed = ySupplier.getAsDouble();
         double zSpeed = zSupplier.getAsDouble();
 
+        boolean lockButton = lockButtonSupplier.getAsBoolean();
+
         SmartDashboard.putNumber("z speed", zSpeed);
      
         //apply deadzone to speed values  //ignore small input values that may be due to noise or slight, unintended movements.
@@ -57,17 +62,14 @@ public class SwerveDrive extends Command { //extends is used to indicate that a 
         ySpeed = modifyAxis(ySpeed); 
         zSpeed = modifyAxis(zSpeed); 
     
-        // SETTING SWERVE STATES 
+        // SETTING SWERVE STATES
         if (fieldOriented) {
           states = SwerveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
-            ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, zSpeed, swerveChassis.getRotation2d())
-          );
+              ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, zSpeed, swerveChassis.getRotation2d())); 
         } else {
           states = SwerveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
-            new ChassisSpeeds(xSpeed, ySpeed, zSpeed)
-          );
+              new ChassisSpeeds(xSpeed, ySpeed, zSpeed));
         }
-        
         swerveChassis.setModuleStates(states);
       }
     
